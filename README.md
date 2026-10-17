@@ -8,16 +8,17 @@
 
 **在 Windows 上，用熟悉的 AirDrop 收发文件。**
 
-作者 **Dy1an-Zou** · **0.2.3 实验预览版**
+作者 **Dy1an-Zou** · **0.2.4 RTL8852CE 社区测试预览版**
 
 [功能](#能做什么) · [安装包](#安装包) · [使用方式](#怎么用) · [硬件要求](#需要什么硬件) · [开发与构建](#开发与构建) · [来源与许可](#来源与许可)
 
 </div>
 
 > [!IMPORTANT]
-> **目前仅支持已配置好的专用 MediaTek MT7925 PCIe。**
-> 当前驱动精确匹配的硬件 ID：`PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00`。
-> 其他 MT7925 变体和其他网卡均未验证。本仓库提供开发源码，尚不具备适配任意 Windows 电脑的一键安装能力。
+> **0.2.4 新增 RTL8852CE PCIe 候选，尚未经过本项目的实机验证。**
+> RTL 候选硬件 ID：`PCI\VEN_10EC&DEV_C852`，需要单独准备上游实验驱动。
+> 已有双向传输实测仍仅覆盖专用 MT7925：`PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00`。
+> [0.2.4 下载与中英发布说明](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.4) · [RTL8852CE 测试说明](docs/RTL8852CE.md) · [候选验证记录](docs/RTL8852CE-VALIDATION.md)。下方 0.2.3 历史记录仍指 MT7925 版本。
 
 把手机里的照片传到电脑，或把电脑里的文件发回 iPhone。打开连接后，软件会留在托盘里；需要时打开窗口，查看来件、管理收到的文件，或选择文件发送。
 
@@ -49,7 +50,16 @@
 
 ## 安装包
 
-**[下载 0.2.3 实验预览版](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.3)**：包含 Windows x64 安装程序、完整源码 ZIP 和 SHA-256 校验文件。
+按网卡选择版本；两个版本都提供 Windows x64 安装程序、源码 ZIP 和 SHA-256 校验文件。
+
+| 版本 | 网卡与验证范围 |
+| --- | --- |
+| **[0.2.4 RTL8852CE 社区测试预览版](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.4)** | `PCI\VEN_10EC&DEV_C852`。已通过构建与离线检查，**未实机验证**；需预先配置指定实验驱动。[准备条件](docs/RTL8852CE.md) · [中英发布说明](docs/releases/v0.2.4.md)。 |
+| **[0.2.3 MT7925 实验预览版](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.3)** | 仅下述专用 MT7925 组合。已有双向图片传输结果来自 0.2.0；0.2.3 未重跑实机。 |
+
+**0.2.4 的 RTL 安装包不能用于升级 MT7925 安装，安装器会拒绝跨后端更新。**
+
+### MT7925 0.2.3 安装说明
 
 安装包 `Airdrop-for-Windows-0.2.3-Setup-x64.exe` 已构建并完成内嵌包校验，适用于下述已配置实验驱动的专用 MT7925 环境。
 
@@ -79,6 +89,8 @@
 
 ## 已验证到哪一步
 
+**0.2.4 RTL8852CE：**完成编译、离线检查和安装包内容校验；本项目没有 RTL8852CE 实物，尚未验证设备发现、双向收发、实际安装、关闭重开和睡眠恢复。[完整验证记录](docs/RTL8852CE-VALIDATION.md)。以下为 MT7925 历史记录。
+
 **已确认的实机结果来自本机 0.2.0 与专用 MT7925 的组合：**
 
 - **iPhone → Windows：**照片接收成功，文件保存并显示在列表中，文件摘要与原件一致。
@@ -104,6 +116,10 @@
 0.2.0 的历史实施检查包括 48 项后端测试、4 项定向反例、本机 HTTPS 回环、桌面状态与文件操作检查。它们与本轮 0.2.3 检查及真实设备传输结果分别记录，详细说明见 [构建与验证说明](docs/BUILD.md)。
 
 ## 需要什么硬件
+
+**0.2.4 RTL8852CE：**专用 PCIe `10EC:C852`，Windows 11 x64 build 26100+，以及指定的上游实验驱动和权限。完整条件见 [RTL8852CE 说明](docs/RTL8852CE.md)。RTL8852AE、RTL8852BE、Realtek USB、Intel 和 Broadcom 网卡不在本次新增支持范围内。
+
+**0.2.3 MT7925：**
 
 - **Windows x64**；当前驱动 INF 的最低系统构建为 **26100**。
 - **专用 MediaTek MT7925 PCIe**，匹配 `PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00`。

@@ -1,5 +1,8 @@
 # 安装与卸载 · Installation and removal
 
+> 本页保留 0.2.3 MT7925 的安装说明。本分支新增的 **0.2.4 RTL8852CE 候选**使用单独的运行包，准备条件见 [RTL8852CE.md](RTL8852CE.md)。
+> This page describes the historical MT7925 release. See the [RTL8852CE candidate guide](RTL8852CE.md) for this branch.
+
 **Airdrop for Windows 0.2.3 · Dy1an-Zou · 实验预览版 / Experimental preview**
 
 [返回中文介绍](../README.md) · [English overview](../README.en.md) · [English instructions](#english)

@@ -1,5 +1,7 @@
 # 0.2.3 安装器开发说明
 
+> 本分支安装器源码已更新为 **0.2.4**。RTL 专用候选的依赖、命令和版本边界见 [RTL8852CE 说明](../../docs/RTL8852CE.md)。下文保留 0.2.3 MT7925 的设计与历史验证记录，不能用来宣称 RTL 实机通过。
+
 本目录是 **Airdrop for Windows 0.2.3** 的 Windows x64 单文件安装器源码，作者 **Dy1an-Zou**。它由 .NET Framework 4.8 Windows Forms 界面和 PowerShell 后端组成，使用 Windows 自带的 .NET Framework MSBuild / C# 编译器构建，不依赖 Inno Setup。
 
 使用者的安装步骤见公开交付中的 `docs/INSTALL.md`。本说明面向准备完整发行包的开发者；源码构建不等于驱动配置或新电脑安装验收。

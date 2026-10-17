@@ -214,5 +214,19 @@
   "建立 AirDrop 网络接口失败：{0}": "Could not create the AirDrop network interface: {0}",
   "确认 AirDrop 网络接口已就绪失败：{0}": "Could not confirm the AirDrop network interface is ready: {0}",
   "配置并核验文件传输通道失败：{0}": "Could not configure the file transfer channel: {0}",
-  "配置并核验设备发现通道失败：{0}": "Could not configure the device discovery channel: {0}"
+  "配置并核验设备发现通道失败：{0}": "Could not configure the device discovery channel: {0}",
+  "正在检查专用 RTL8852CE 网卡和驱动…": "Checking the dedicated RTL8852CE adapter and driver…",
+  "需要且仅支持一块专用 RTL8852CE 网卡。": "Exactly one dedicated RTL8852CE adapter is required.",
+  "RTL8852CE 的 winawdl_regproxy 实验驱动未就绪；没有修改网卡驱动": "The RTL8852CE winawdl_regproxy driver is not ready; no driver was changed.",
+  "RTL8852CE 驱动与固定的 winawdl 0.3.0 版本不同": "The RTL8852CE driver differs from the pinned winawdl 0.3.0 image.",
+  "版本 0.2.4": "Version 0.2.4",
+  "未知的无线后端；没有启动网卡": "Unknown radio backend; the adapter was not started.",
+  "无线后端与运行文件来源不一致": "The radio backend and runtime provenance do not match.",
+  "RTL8852CE 网卡标识无效": "Invalid RTL8852CE adapter identity.",
+  "RTL8852CE 驱动来源不符合固定版本": "The RTL8852CE driver source does not match the pinned release.",
+  "RTL8852CE 驱动路径越界": "The RTL8852CE driver path escapes the driver store.",
+  "RTL8852CE 驱动映像格式不符合固定版本": "The RTL8852CE driver image does not match the pinned format.",
+  "RTL8852CE 驱动签名区域无效": "Invalid RTL8852CE driver certificate range.",
+  "专用无线网卡在本次连接中发生变化": "The dedicated adapter changed during this connection.",
+  "检查专用 RTL8852CE 网卡和驱动失败：{0}": "Could not check the dedicated RTL8852CE adapter and driver: {0}"
 }

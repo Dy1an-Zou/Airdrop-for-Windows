@@ -8,16 +8,17 @@
 
 **Send and receive files with AirDrop on Windows.**
 
-By **Dy1an-Zou** · **0.2.3 experimental preview**
+By **Dy1an-Zou** · **0.2.4 RTL8852CE community test preview**
 
 [Features](#features) · [Installer](#installer) · [How to use](#how-to-use) · [Hardware requirements](#hardware-requirements) · [Development and builds](#development-and-builds) · [Credits and licenses](#credits-and-licenses)
 
 </div>
 
 > [!IMPORTANT]
-> **Currently supports only a dedicated, preconfigured MediaTek MT7925 PCIe adapter.**
-> The current driver requires this exact hardware ID: `PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00`.
-> Other MT7925 variants and other adapters have not been tested. This repository provides source code for developers; it does not provide a universal, one-click setup for Windows PCs.
+> **0.2.4 adds an RTL8852CE PCIe candidate that has not been tested on hardware by this project.**
+> RTL candidate hardware ID: `PCI\VEN_10EC&DEV_C852`; the upstream experimental driver must be prepared separately.
+> This project's existing bidirectional transfer evidence covers only the dedicated MT7925: `PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00`.
+> [0.2.4 downloads and bilingual release notes](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.4) · [RTL8852CE test guide](docs/RTL8852CE.md) · [Validation record](docs/RTL8852CE-VALIDATION.md). The 0.2.3 historical results below still refer to MT7925.
 
 Move photos from your phone to your PC, or send files from your PC to your iPhone. Once enabled, the app stays in the system tray. Open its window whenever you want to accept a transfer, manage received files, or send something.
 
@@ -49,7 +50,16 @@ These are off-screen renders of the actual 0.2.3 WPF interface with sample files
 
 ## Installer
 
-**[Download the 0.2.3 experimental preview](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.3)**: Windows x64 installer, complete source ZIP, and SHA-256 checksums.
+Choose the package for your adapter. Both releases provide a Windows x64 installer, source ZIP, and SHA-256 checksums.
+
+| Release | Hardware and verification scope |
+| --- | --- |
+| **[0.2.4 RTL8852CE community test preview](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.4)** | `PCI\VEN_10EC&DEV_C852`. Builds and offline checks passed; **no hardware testing yet**. Requires the pinned experimental driver to be configured first. [Prerequisites](docs/RTL8852CE.md) · [Bilingual release notes](docs/releases/v0.2.4.md). |
+| **[0.2.3 MT7925 experimental preview](https://github.com/Dy1an-Zou/Airdrop-for-Windows/releases/tag/v0.2.3)** | Only the dedicated MT7925 configuration below. Historical bidirectional image transfers were tested with 0.2.0; hardware transfers were not repeated for 0.2.3. |
+
+**The 0.2.4 RTL installer is not an upgrade for an MT7925 installation. The installer rejects updates that change the native backend.**
+
+### MT7925 0.2.3 installation notes
 
 The installer, `Airdrop-for-Windows-0.2.3-Setup-x64.exe`, has been built and its embedded payload verified. It requires the dedicated MT7925 configuration and experimental driver described below.
 
@@ -79,6 +89,8 @@ If the device does not appear, keep its AirDrop screen open and search again. Cl
 
 ## What has been verified
 
+**0.2.4 RTL8852CE:** compilation, offline checks, and installer-content verification are complete. The author does not own an RTL8852CE; device discovery, bidirectional transfers, actual installation, shutdown/restart, and sleep/wake have not been tested. [Full validation record](docs/RTL8852CE-VALIDATION.md). The following results are MT7925 history.
+
 **Confirmed real-device results come from version 0.2.0 on the author's PC with the dedicated MT7925:**
 
 - **iPhone → Windows:** a photo was received, saved, and displayed in the file list. Its hash matched the original.
@@ -104,6 +116,10 @@ The installer candidate compiled with 0 errors and 0 warnings, and its 199-file 
 Historical 0.2.0 implementation checks include 48 backend tests, 4 targeted fault-injection checks, a local HTTPS loopback transfer, and desktop state and file-operation checks. They are recorded separately from this round's 0.2.3 checks and the real-device transfers above. See the [build and verification guide](docs/BUILD.md) (Chinese) for details.
 
 ## Hardware requirements
+
+**0.2.4 RTL8852CE:** a dedicated PCIe `10EC:C852` adapter, Windows 11 x64 build 26100+, and the pinned upstream experimental driver and required privileges. See the [RTL8852CE guide](docs/RTL8852CE.md) for all prerequisites. This release does not add support for RTL8852AE, RTL8852BE, Realtek USB, Intel, or Broadcom adapters.
+
+**0.2.3 MT7925:**
 
 - **Windows x64**; the current driver INF requires **build 26100 or later**.
 - A **dedicated MediaTek MT7925 PCIe adapter** matching `PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00`.

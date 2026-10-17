@@ -19,12 +19,12 @@ using System.Windows.Forms;
 [assembly: AssemblyTitle("Airdrop for Windows Setup")]
 [assembly: AssemblyProduct("Airdrop for Windows")]
 [assembly: AssemblyCompany("Dy1an-Zou")]
-[assembly: AssemblyVersion("0.2.3.0")]
-[assembly: AssemblyFileVersion("0.2.3.0")]
+[assembly: AssemblyVersion("0.2.4.0")]
+[assembly: AssemblyFileVersion("0.2.4.0")]
 
 internal static class Setup
 {
-    internal const string Version = "0.2.3";
+    internal const string Version = "0.2.4";
     internal static readonly JavaScriptSerializer Json = new JavaScriptSerializer { MaxJsonLength = 8 * 1024 * 1024 };
     internal static readonly string SetupData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "AirdropForWindowsSetup");
     internal static string Self { get { return Assembly.GetExecutingAssembly().Location; } }
@@ -210,7 +210,7 @@ internal sealed class SetupForm : Form
         var logo = new PictureBox { Location = new Point(28, 30), Size = new Size(68, 68), SizeMode = PictureBoxSizeMode.Zoom };
         using (var stream = new MemoryStream(Setup.Resource("app.png"))) using (var original = Image.FromStream(stream)) logo.Image = new Bitmap(original);
         title.SetBounds(112, 32, 390, 36); title.Font = new Font("Segoe UI", 18, FontStyle.Bold); title.Text = "Airdrop for Windows";
-        author.SetBounds(113, 74, 350, 24); author.Text = "0.2.3  ·  Dy1an-Zou"; author.ForeColor = Color.FromArgb(80, 80, 72);
+        author.SetBounds(113, 74, 350, 24); author.Text = "0.2.4  ·  Dy1an-Zou"; author.ForeColor = Color.FromArgb(80, 80, 72);
         chinese.SetBounds(510, 40, 60, 30); chinese.Text = "中文"; chinese.AccessibleName = "简体中文";
         englishButton.SetBounds(578, 40, 72, 30); englishButton.Text = "English";
         foreach (var button in new[] { chinese, englishButton })
@@ -236,7 +236,7 @@ internal sealed class SetupForm : Form
     void RefreshCopy()
     {
         description.Text = uninstall ? T("卸载 Airdrop for Windows。\r\n\r\n接收的文件、个人设置和网卡驱动会保留。\r\n请先从系统托盘退出软件。", "Remove Airdrop for Windows.\r\n\r\nReceived files, preferences and the network driver will be kept.\r\nExit the app from the system tray first.")
-            : T("在 Windows 上使用 AirDrop 收发文件。\r\n\r\n适用于已配置好实验驱动的专用 MT7925 网卡。\r\n安装前请退出软件；安装程序会检查环境，并保留已有设置与文件。", "Send and receive files with AirDrop on Windows.\r\n\r\nRequires a dedicated, supported MT7925 with its experimental\r\ndriver already configured. Exit the app before installing.\r\nSetup checks requirements and keeps your settings and files.");
+            : T("在 Windows 上使用 AirDrop 收发文件。\r\n\r\n适用于与本安装包匹配的专用网卡和实验驱动。\r\n安装前请退出软件；安装程序会检查环境，并保留已有设置与文件。", "Send and receive files with AirDrop on Windows.\r\n\r\nRequires the dedicated adapter and matching experimental\r\ndriver already configured. Exit the app before installing.\r\nSetup checks requirements and keeps your settings and files.");
         foreach (var button in new[] { chinese, englishButton })
         {
             bool selected = (button == englishButton) == english;

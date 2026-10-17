@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$PackageDir = (Join-Path $PSScriptRoot '..'),
     [switch]$ValidateOnly
@@ -42,6 +42,7 @@ function Test-Package([string]$Root) {
     Assert-NoLink $manifestFile
     $manifest = Get-Content -LiteralPath $manifestFile -Raw | ConvertFrom-Json
     if ($manifest.schema -ne 'xiatiao.runtime.v1') { throw '不支持的安装清单。' }
+    if ($manifest.PSObject.Properties['radioBackend'] -and $manifest.radioBackend -cne 'mt7925') { throw '此旧脚本仅供 MT7925 历史包使用。RTL8852CE 请使用对应的 0.2.4 Preview 安装器。' }
     $expected = @{}
     foreach ($entry in $manifest.files.PSObject.Properties) {
         $path = Safe-Child $Root $entry.Name

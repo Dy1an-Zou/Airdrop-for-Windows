@@ -15,7 +15,7 @@ $script:resultPathApproved=$false
 
 # Called by the installer; never elevates, opens UI, starts the application,
 # installs a driver, changes security policy, or stops an application.
-$legacyManifest = '234f8a9655769cc036ddec42493b5bc69dd8d41d06c5640f65bd0fe777d2b067'
+$legacyManifests = @('234f8a9655769cc036ddec42493b5bc69dd8d41d06c5640f65bd0fe777d2b067','0d64270845b33c202f1d3ad67d01e7ab5ebc395415c716057863769b6acd923f')
 $hardwareId = 'PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00'
 $driverSha = '938148d69b14c911c18c4c7a9ef00703ad5625e46d876143b8f887df6762aafb'
 $programFiles = [IO.Path]::GetFullPath([Environment]::GetFolderPath('ProgramFiles')).TrimEnd('\')
@@ -43,6 +43,69 @@ $pins = @{
 }
 
 function Fail([string]$Code, [string]$Message) { throw "$Code`: $Message" }
+function Resolve-RadioBackend($Manifest) {
+    $id = if ($Manifest.PSObject.Properties['radioBackend']) { $Manifest.radioBackend } else { 'mt7925' }
+    if ($id -cnotin @('mt7925','rtl8852ce')) { Fail 'RADIO_BACKEND' 'Unknown radio backend.' }
+    $source = if ($id -ceq 'mt7925') { 'mt7925-transfer-runtime-r39' } else { 'rtl8852ce-winawdl-v0.3.0' }
+    if ($Manifest.sourceRuntime -cne $source) { Fail 'RADIO_SOURCE' 'Radio backend and runtime provenance differ.' }
+    return $id
+}
+function Get-RadioPins([string]$Backend) {
+    if ($Backend -ceq 'mt7925') { return $pins }
+    if ($Backend -cne 'rtl8852ce') { Fail 'RADIO_BACKEND' 'Unknown radio backend.' }
+    return @{
+        'runtime/awdld.exe'='ae9c4ba3eb8583e3792b4d6c10cd40191c44ed8440d1bc942cbafeb99cd91af9'
+        'runtime/winawdl_radio.exe'='55ec78b2a3e632f4b022c444085660a9915286b2ce9d7549d68dbd69c1bdfb77'
+        'runtime/wintun.dll'='e5da8447dc2c320edc0fc52fa01885c103de8c118481f683643cacc3220dafce'
+    }
+}
+function Assert-RealtekIdentity($Device) {
+    if ($Device.instance -notmatch '\APCI\\VEN_10EC&DEV_C852(?:&SUBSYS_[0-9A-F]{8})?(?:&REV_[0-9A-F]{2})?\\[A-Z0-9&_]+\z' -or $Device.instance.Length -gt 240) { Fail 'DEVICE_ID' 'Invalid RTL8852CE instance.' }
+    $classId=[guid]::Empty
+    if ($Device.status -cne 'OK' -or [int]$Device.problem -ne 0 -or $Device.service -ine 'WUDFRd' -or
+        -not [guid]::TryParse([string]$Device.classGuid,[ref]$classId) -or $classId -ne [guid]'42c93386-3172-4834-9a73-d5dbe38443f8' -or
+        @($Device.hardwareIds|Where-Object{$_ -imatch '\APCI\\VEN_10EC&DEV_C852(?:&SUBSYS_[0-9A-F]{8}(?:&REV_[0-9A-F]{2})?|&REV_[0-9A-F]{2}|&CC_[0-9A-F]{4}(?:[0-9A-F]{2})?)?\z'}).Count -eq 0) { Fail 'DEVICE_DRIVER' 'RTL8852CE requires the winawdl_regproxy experimental driver. No driver was changed. / RTL8852CE 实验驱动未就绪。' }
+}
+function Get-RealtekDriverImageHash([byte[]]$Image) {
+    # Match upstream code while permitting the machine-local Authenticode signature.
+    if($Image.Length -lt 110592 -or $Image.Length -gt 1159168 -or [BitConverter]::ToInt32($Image,60) -ne 264 -or [BitConverter]::ToUInt32($Image,264) -ne 0x4550 -or [BitConverter]::ToUInt16($Image,288) -ne 0x20b){Fail 'DRIVER_IMAGE' 'Unexpected RTL8852CE PE image.'}
+    $offset=[BitConverter]::ToUInt32($Image,432);$length=[BitConverter]::ToUInt32($Image,436)
+    if(($offset -eq 0 -and ($length -ne 0 -or $Image.Length -ne 110592)) -or ($offset -ne 0 -and ($offset -ne 110592 -or $length -lt 8 -or [uint64]$offset+$length -ne [uint64]$Image.Length))){Fail 'DRIVER_IMAGE' 'Invalid RTL8852CE certificate range.'}
+    $copy=New-Object byte[] 110592;[Array]::Copy($Image,$copy,110592)
+    [Array]::Clear($copy,352,4);[Array]::Clear($copy,432,8)
+    return Hash-Bytes $copy
+}
+function Assert-RealtekRequirements {
+    $system=[Environment]::SystemDirectory
+    foreach($dll in @('vcruntime140.dll','vcruntime140_1.dll','msvcp140.dll')){
+        if(-not (Test-Path -LiteralPath (Join-Path $system $dll))){Fail 'VC_RUNTIME' 'RTL8852CE requires Microsoft Visual C++ 2015-2022 x64 Redistributable.'}
+    }
+    $priv=& (Join-Path $system 'whoami.exe') /priv /fo csv /nh
+    if($LASTEXITCODE -ne 0 -or -not ($priv -match 'SeLockMemoryPrivilege')){Fail 'LOCK_MEMORY' 'RTL8852CE requires Lock pages in memory for this account. Sign out and sign in after granting it. / 需为当前账户分配“锁定内存页”，再注销并重新登录。'}
+    $devices=@(Get-PnpDevice -PresentOnly | Where-Object {$_.InstanceId -match '^PCI\\VEN_10EC&DEV_C852(?:&|\\)'})
+    if($devices.Count -ne 1){Fail 'DEVICE_COUNT' 'Exactly one dedicated RTL8852CE is required. / 需要唯一一块专用 RTL8852CE。'}
+    $device=$devices[0]
+    $state=[pscustomobject]@{
+        instance=$device.InstanceId;status=$device.Status
+        service=(Get-PnpDeviceProperty -InstanceId $device.InstanceId -KeyName 'DEVPKEY_Device_Service').Data
+        problem=(Get-PnpDeviceProperty -InstanceId $device.InstanceId -KeyName 'DEVPKEY_Device_ProblemCode').Data
+        classGuid=[string](Get-PnpDeviceProperty -InstanceId $device.InstanceId -KeyName 'DEVPKEY_Device_ClassGuid').Data
+        hardwareIds=@((Get-PnpDeviceProperty -InstanceId $device.InstanceId -KeyName 'DEVPKEY_Device_HardwareIds').Data)
+    }
+    Assert-RealtekIdentity $state
+    $inf=[string](Get-PnpDeviceProperty -InstanceId $device.InstanceId -KeyName 'DEVPKEY_Device_DriverInfPath').Data
+    if($inf -notmatch '^oem[0-9]+\.inf$'){Fail 'DRIVER_PATH' 'Expected an installed OEM driver INF.'}
+    $packages=@(Get-WindowsDriver -Online -Driver $inf -ErrorAction Stop)
+    if($packages.Count -ne 1){Fail 'DRIVER_PATH' 'Ambiguous driver package.'}
+    $original=[string]$packages[0].OriginalFileName
+    $driverStore=[IO.Path]::GetFullPath((Join-Path ([Environment]::GetFolderPath('Windows')) 'System32\DriverStore\FileRepository')).TrimEnd('\')+'\'
+    if(-not [IO.Path]::IsPathRooted($original) -or -not ([IO.Path]::GetFullPath($original)).StartsWith($driverStore,[StringComparison]::OrdinalIgnoreCase) -or [IO.Path]::GetFileName($original) -ine 'winawdl_regproxy.inf'){Fail 'DRIVER_PATH' 'RTL8852CE driver package is outside its expected driver store path.'}
+    $driverPath=Join-Path ([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($original))) 'winawdl_regproxy.dll'
+    Assert-NoLink $driverPath
+    $expected='ed0bc40efe1fa5d069ec9c42ab5f8181de9981b986aed710c92ebb5d615c23d7'
+    if((Get-RealtekDriverImageHash ([IO.File]::ReadAllBytes($driverPath))) -ine $expected){Fail 'DRIVER_HASH' 'RTL8852CE driver differs from pinned winawdl 0.3.0.'}
+    return [pscustomobject]@{backend='rtl8852ce';hardwareId='PCI\VEN_10EC&DEV_C852';instanceId=$device.InstanceId;driverSha256=$expected}
+}
 function Hash-Bytes([byte[]]$Bytes) {
     $hash = [Security.Cryptography.SHA256]::Create()
     try { return ([BitConverter]::ToString($hash.ComputeHash($Bytes))).Replace('-','').ToLowerInvariant() }
@@ -103,6 +166,8 @@ function Read-VerifiedTree([string]$Root, [string]$ManifestSha, [bool]$AllowRece
     if ((Hash-Bytes $bytes) -ine $ManifestSha) { Fail 'MANIFEST_HASH' 'Package manifest does not match this installer.' }
     $manifest = [Text.Encoding]::UTF8.GetString($bytes).TrimStart([char]0xFEFF) | ConvertFrom-Json
     if ($manifest.schema -ne 'xiatiao.runtime.v1' -or $manifest.product -ne 'XiatiaoAirDrop') { Fail 'MANIFEST_PRODUCT' 'Unexpected package manifest format or product.' }
+    $backend=Resolve-RadioBackend $manifest
+    $selectedPins=Get-RadioPins $backend
     $known = @{}
     $directories = @{}
     foreach ($entry in $manifest.files.PSObject.Properties) {
@@ -123,9 +188,9 @@ function Read-VerifiedTree([string]$Root, [string]$ManifestSha, [bool]$AllowRece
     foreach ($required in @('xiatiaoairdrop.exe','xiatiaoairdrop.dll','xiatiaoairdrop.deps.json','xiatiaoairdrop.runtimeconfig.json','python/python.exe','receiver/engine.py','receiver/sender.py','receiver/airdrop-beacon.ps1','assets/xiatiao-airdrop.ico','assets/xiatiao-airdrop.png','licenses/third-party-notices.md')) {
         if (-not $known.ContainsKey($required)) { Fail 'MISSING_COMPONENT' "Required package component is missing: $required" }
     }
-    foreach ($name in $pins.Keys) { if (-not $known.ContainsKey($name) -or $known[$name] -ine $pins[$name]) { Fail 'NATIVE_PIN' "Native component differs from the supported release: $name" } }
+    foreach ($name in $selectedPins.Keys) { if (-not $known.ContainsKey($name) -or $known[$name] -ine $selectedPins[$name]) { Fail 'NATIVE_PIN' "Native component differs from the supported release: $name" } }
     if ($AllowReceipt -and -not (Test-Path -LiteralPath (Join-Path $Root 'installation.json') -PathType Leaf)) { Fail 'RECEIPT_MISSING' 'Installation receipt is missing.' }
-    return [pscustomobject]@{Root=$Root; Manifest=$manifest; Bytes=$bytes; Sha=$ManifestSha.ToLowerInvariant(); Files=$known}
+    return [pscustomobject]@{Root=$Root; Manifest=$manifest; Bytes=$bytes; Sha=$ManifestSha.ToLowerInvariant(); Files=$known; Backend=$backend}
 }
 function Read-Installed {
     if (-not (Test-Path -LiteralPath $installRoot)) { return $null }
@@ -148,7 +213,7 @@ function Assert-Owner([bool]$Elevated) {
     if ($Elevated -and -not (New-Object Security.Principal.WindowsPrincipal($identity)).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { Fail 'ADMIN_REQUIRED' 'Administrator approval is required. / 需要管理员权限。' }
     if (-not [Environment]::Is64BitProcess -or -not [Environment]::Is64BitOperatingSystem) { Fail 'X64_REQUIRED' 'Use the 64-bit Windows installer and 64-bit PowerShell.' }
 }
-function Assert-Requirements {
+function Assert-Requirements([string]$Backend='mt7925') {
     $os = Get-CimInstance Win32_OperatingSystem
     $architecture = (Get-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment').PROCESSOR_ARCHITECTURE
     if ($architecture -ine 'AMD64' -or [int]$os.BuildNumber -lt 26100) { Fail 'WINDOWS_VERSION' 'Windows x64 build 26100 or newer is required. / 需要 Windows 11 24H2 或更新的 x64 系统。' }
@@ -157,6 +222,8 @@ function Assert-Requirements {
     if (-not (Test-Path -LiteralPath $dotnet -PathType Leaf)) { Fail 'DOTNET_REQUIRED' '.NET Desktop Runtime 10 x64 is required. Install it from Microsoft, then run Setup again.' }
     $runtimes = & $dotnet --list-runtimes
     if ($LASTEXITCODE -ne 0 -or -not ($runtimes -match '^Microsoft\.WindowsDesktop\.App 10\.\d+\.\d+ \[')) { Fail 'DOTNET_REQUIRED' '.NET Desktop Runtime 10 x64 is required. / 缺少 .NET 桌面运行时 10 x64。' }
+    if ($Backend -ceq 'rtl8852ce') { return Assert-RealtekRequirements }
+    if ($Backend -cne 'mt7925') { Fail 'RADIO_BACKEND' 'Unknown radio backend.' }
     $candidates = @(Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId.StartsWith($hardwareId + '\', [StringComparison]::OrdinalIgnoreCase) })
     if ($candidates.Count -ne 1) { Fail 'DEVICE_COUNT' 'Exactly one supported MT7925 with the tested experimental driver is required. Setup does not install drivers. / 需要唯一受支持且已配置实验驱动的 MT7925。' }
     $device = $candidates[0]
@@ -196,7 +263,7 @@ function Get-Bindings([bool]$RequireExisting) {
 }
 function Assert-Idle {
     $active = @(Get-CimInstance Win32_Process | Where-Object {
-        $_.Name -in @('XiatiaoAirDrop.exe','winawdl_mt7925.exe','awdld.exe') -or
+        $_.Name -in @('XiatiaoAirDrop.exe','winawdl_mt7925.exe','winawdl_radio.exe','awdld.exe') -or
         ($_.Name -in @('python.exe','pythonw.exe') -and $_.ExecutablePath -and $_.ExecutablePath.StartsWith($installRoot + '\',[StringComparison]::OrdinalIgnoreCase))
     })
     if ($active.Count) { Fail 'APP_RUNNING' 'Exit Airdrop for Windows from its tray menu and wait for the helper to close. Setup never force-stops it. / 请先从托盘退出软件。' }
@@ -318,7 +385,7 @@ function Read-SetupTree([string]$Root,[string]$ManifestSha,[string]$InstallerSha
     return [pscustomobject]@{Root=$Root;ManifestSha=$ManifestSha;InstallerSha=$InstallerSha;ReceiptSha=(Hash-Bytes $bytes)}
 }
 function Get-ArpValues([string]$InstallerSha) {
-    return [ordered]@{DisplayName='Airdrop for Windows';DisplayVersion='0.2.3';Publisher='Dy1an-Zou';InstallLocation=$installRoot;DisplayIcon=($exe+',0');UninstallString=('"'+$setupExe+'" --uninstall');NoModify=1;NoRepair=1;InstallOwnerSid=$ownerSid;SetupSha256=$InstallerSha}
+    return [ordered]@{DisplayName='Airdrop for Windows';DisplayVersion='0.2.4';Publisher='Dy1an-Zou';InstallLocation=$installRoot;DisplayIcon=($exe+',0');UninstallString=('"'+$setupExe+'" --uninstall');NoModify=1;NoRepair=1;InstallOwnerSid=$ownerSid;SetupSha256=$InstallerSha}
 }
 function Assert-Arp([string]$InstallerSha) {
     if(-not (Test-Path -LiteralPath $uninstallKey)){Fail 'UNINSTALL_REGISTRATION' 'Apps uninstall registration is missing.'}
@@ -383,7 +450,7 @@ function Install-Payload($New,$Old,$Bindings,[bool]$StartOnLogin,$Installer,$Old
         [IO.Directory]::CreateDirectory($stage)|Out-Null;Protect-Tree $stage
         foreach($entry in $New.Manifest.files.PSObject.Properties){$source=Safe-Child $New.Root $entry.Name;$target=Safe-Child $stage $entry.Name;[IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($target))|Out-Null;Copy-Item -LiteralPath $source -Destination $target}
         [IO.File]::WriteAllBytes((Join-Path $stage 'runtime-manifest.json'),$New.Bytes)
-        $receipt=[ordered]@{schema='xiatiao.install.v1';installedUtc=[DateTime]::UtcNow.ToString('o');ownerSid=$ownerSid;installRoot=$installRoot;task=$taskName;shortcut=$shortcutPath;manifestSha256=$New.Sha;version='0.2.3';updateKind='public-setup';updateToken=$token;setupRoot=$setupRoot;setupSha256=$Installer.Sha}
+        $receipt=[ordered]@{schema='xiatiao.install.v1';installedUtc=[DateTime]::UtcNow.ToString('o');ownerSid=$ownerSid;installRoot=$installRoot;task=$taskName;shortcut=$shortcutPath;manifestSha256=$New.Sha;version='0.2.4';updateKind='public-setup';updateToken=$token;setupRoot=$setupRoot;setupSha256=$Installer.Sha}
         if($Old){$receipt.installedUtc=$Old.Receipt.installedUtc;$receipt.previousManifestSha256=$Old.Sha;$receipt.updatedUtc=[DateTime]::UtcNow.ToString('o')}
         [IO.File]::WriteAllText((Join-Path $stage 'installation.json'),($receipt|ConvertTo-Json -Depth 6),[Text.UTF8Encoding]::new($false))
         Protect-Tree $stage;Read-VerifiedTree $stage $New.Sha $true|Out-Null
@@ -414,7 +481,7 @@ function Install-Payload($New,$Old,$Bindings,[bool]$StartOnLogin,$Installer,$Old
         $cleanupWarning=$null
         if($Old){try{Remove-VerifiedTree $backup $Old $Old.ReceiptSha $token}catch{$cleanupWarning=$_.Exception.Message}}
         if($OldSetup){try{Remove-SetupTree $setupBackup $OldSetup $token}catch{$cleanupWarning=([string]$cleanupWarning+' '+$_.Exception.Message).Trim()}}
-        return [ordered]@{status=$(if($Old){'updated'}else{'installed'});version='0.2.3';installRoot=$installRoot;manifestSha256=$New.Sha;ownerSid=$ownerSid;autostart=$StartOnLogin;backup=$(if(Test-Path -LiteralPath $backup){$backup}else{$null});setupBackup=$(if(Test-Path -LiteralPath $setupBackup){$setupBackup}else{$null});cleanupWarning=$cleanupWarning;driverChanged=$false;applicationStarted=$false;userDataPreserved=$true}
+        return [ordered]@{status=$(if($Old){'updated'}else{'installed'});version='0.2.4';installRoot=$installRoot;manifestSha256=$New.Sha;ownerSid=$ownerSid;autostart=$StartOnLogin;backup=$(if(Test-Path -LiteralPath $backup){$backup}else{$null});setupBackup=$(if(Test-Path -LiteralPath $setupBackup){$setupBackup}else{$null});cleanupWarning=$cleanupWarning;driverChanged=$false;applicationStarted=$false;userDataPreserved=$true}
     }catch{
         $cause=$_.Exception.Message
         if(-not $committed){
@@ -503,15 +570,15 @@ try {
         if($package -ieq $installRoot -or $package.StartsWith($installRoot+'\',[StringComparison]::OrdinalIgnoreCase)){Fail 'PACKAGE_LOCATION' 'Payload cannot be the installed product.'}
         $new=Read-VerifiedTree $package $ExpectedManifestSha256 $false
         $version=[Diagnostics.FileVersionInfo]::GetVersionInfo((Join-Path $package 'XiatiaoAirDrop.dll'))
-        if($version.FileVersion -ne '0.2.3.0' -or $version.ProductVersion -notmatch '^0\.2\.3(\+|$)'){Fail 'PAYLOAD_VERSION' 'This installer requires the 0.2.3 payload.'}
+        if($version.FileVersion -ne '0.2.4.0' -or $version.ProductVersion -notmatch '^0\.2\.4(\+|$)'){Fail 'PAYLOAD_VERSION' 'This installer requires the 0.2.4 payload.'}
         if($Mode -eq 'verify-payload'){
-            $result=[ordered]@{status='verified';version='0.2.3';manifestSha256=$new.Sha;files=$new.Files.Count;mutations=0}
+            $result=[ordered]@{status='verified';version='0.2.4';manifestSha256=$new.Sha;files=$new.Files.Count;mutations=0}
         }else{
-            Assert-Owner ($Mode -eq 'install');$device=Assert-Requirements;$old=Read-Installed
-            if($old){if($old.Sha -ine $legacyManifest -and $old.Sha -ine $new.Sha){Fail 'UPGRADE_VERSION' 'Only the verified 0.2.2 installation or this exact 0.2.3 release can be updated.'};Assert-FrozenComponents $old $new}
+            Assert-Owner ($Mode -eq 'install');$device=Assert-Requirements $new.Backend;$old=Read-Installed
+            if($old){if($old.Sha -notin $legacyManifests -and $old.Sha -ine $new.Sha){Fail 'UPGRADE_VERSION' 'Only the verified 0.2.2 / 0.2.3 installation or this exact 0.2.4 release can be updated.'};Assert-FrozenComponents $old $new}
             $bindings=Get-Bindings ([bool]$old);$setupState=Get-SetupState $old;$installer=Read-InstallerSource;Assert-Idle
             $startOnLogin=if($AutoStart -eq 'preserve'){if($old){$bindings.Run}else{$true}}else{$AutoStart -eq 'enabled'}
-            if($Mode -eq 'preflight'){$result=[ordered]@{status='ready';version='0.2.3';manifestSha256=$new.Sha;installRoot=$installRoot;ownerSid=$ownerSid;upgrade=[bool]$old;autostart=$startOnLogin;device=$device;mutations=0}}
+            if($Mode -eq 'preflight'){$result=[ordered]@{status='ready';version='0.2.4';manifestSha256=$new.Sha;installRoot=$installRoot;ownerSid=$ownerSid;upgrade=[bool]$old;autostart=$startOnLogin;device=$device;mutations=0}}
             else{$result=Install-Payload $new $old $bindings $startOnLogin $installer $setupState}
         }
     }

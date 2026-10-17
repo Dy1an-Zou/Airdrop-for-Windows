@@ -28,14 +28,7 @@ public static class RadioHost
     private static string? _instance;
     internal static string Instance => _instance ?? throw new IOException("尚未确认专用 MT7925 网卡");
     private const string DriverSha = "938148d69b14c911c18c4c7a9ef00703ad5625e46d876143b8f887df6762aafb";
-    private static readonly Dictionary<string, string> Pinned = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["runtime/awdld.exe"] = "cc4cc3bdffb8ae3ed18dd9d7d7056fd1769ba1e55b9338619a2eb552d5f29130",
-        ["runtime/winawdl_mt7925.exe"] = "79e1bc7422c699cd6b0dfd378c9c910dc1d6d3654d748aa904e7232e9f880df2",
-        ["runtime/wintun.dll"] = "e5da8447dc2c320edc0fc52fa01885c103de8c118481f683643cacc3220dafce",
-        ["firmware/WIFI_MT7925_PATCH_MCU_1_1_hdr.bin"] = "8eb46014d2a6b4124472eee7476d995008a6f40b1daffef87eb42f30d98699e1",
-        ["firmware/WIFI_RAM_CODE_MT7925_1_1.bin"] = "23ff53b4bb639b30481e2e06bb1688569ad1ba971b897936db539882abfbd120",
-    };
+    internal static RadioBackend Backend { get; private set; } = RadioBackend.MediaTek;
 
     public static int Run(string[] args)
     {
@@ -45,7 +38,11 @@ public static class RadioHost
             if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
                 throw new UnauthorizedAccessException("无线助手必须由已安装的高权限任务运行");
             ValidateInstalledLocation();
-            ProtectedFiles.VerifyManifest(InstallFolder, Pinned);
+            var manifestPath = Path.Combine(InstallFolder, "runtime-manifest.json");
+            ProtectedFiles.CheckChain(manifestPath, InstallFolder);
+            using var manifest = JsonDocument.Parse(File.ReadAllText(manifestPath));
+            Backend = RadioBackend.FromManifest(manifest.RootElement);
+            ProtectedFiles.VerifyManifest(InstallFolder, Backend.Pins);
             // Installer creates this directory; the helper never adopts an unsafe existing path.
             ProtectedFiles.CheckChain(LogsFolder,
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "XiatiaoAirDrop"));
@@ -139,6 +136,7 @@ public static class RadioHost
 
     internal static async Task VerifyDeviceAsync()
     {
+        if (Backend.IsRealtek) { await VerifyRealtekAsync(); return; }
         var json = await SystemCommand.PowerShellAsync(
             "$matches=@(Get-PnpDevice -PresentOnly -ErrorAction Stop | Where-Object {" +
             "$_.InstanceId.StartsWith('" + SupportedHardware + "\\',[StringComparison]::OrdinalIgnoreCase)});" +
@@ -163,6 +161,41 @@ public static class RadioHost
         var path = Path.Combine(windows, image[@"\SystemRoot\".Length..]);
         if (!File.Exists(path) || ProtectedFiles.Hash(path) != DriverSha)
             throw new IOException("专用网卡驱动与已验证的 r36 版本不同");
+        _instance = candidate;
+    }
+
+    private static async Task VerifyRealtekAsync()
+    {
+        // The exact PnP instance is checked before any use. No driver binding or
+        // restart is attempted; Get-WindowsDriver only reads the installed package.
+        var json = await SystemCommand.PowerShellAsync(
+            "$system=[Environment]::SystemDirectory;" +
+            "foreach($dll in @('vcruntime140.dll','vcruntime140_1.dll','msvcp140.dll')){" +
+            "if(-not (Test-Path -LiteralPath (Join-Path $system $dll))){throw 'RTL8852CE requires Microsoft Visual C++ 2015-2022 x64 Redistributable'}};" +
+            "$priv=& (Join-Path $system 'whoami.exe') /priv /fo csv /nh;" +
+            "if($LASTEXITCODE -ne 0 -or -not ($priv -match 'SeLockMemoryPrivilege')){throw 'RTL8852CE requires Lock pages in memory for this account; sign out and sign in after granting it'};" +
+            "$matches=@(Get-PnpDevice -PresentOnly -ErrorAction Stop | Where-Object {" +
+            "$_.InstanceId -match '^PCI\\\\VEN_10EC&DEV_C852(?:&|\\\\)'});" +
+            "if($matches.Count -ne 1){throw '需要且仅支持一块专用 RTL8852CE 网卡。'};$d=$matches[0];" +
+            "$s=(Get-PnpDeviceProperty -InstanceId $d.InstanceId -KeyName DEVPKEY_Device_Service).Data;" +
+            "$p=(Get-PnpDeviceProperty -InstanceId $d.InstanceId -KeyName DEVPKEY_Device_ProblemCode).Data;" +
+            "$g=(Get-PnpDeviceProperty -InstanceId $d.InstanceId -KeyName DEVPKEY_Device_ClassGuid).Data;" +
+            "$ids=@((Get-PnpDeviceProperty -InstanceId $d.InstanceId -KeyName DEVPKEY_Device_HardwareIds).Data);" +
+            "$inf=(Get-PnpDeviceProperty -InstanceId $d.InstanceId -KeyName DEVPKEY_Device_DriverInfPath).Data;" +
+            "if($inf -notmatch '^oem[0-9]+\\.inf$'){throw 'RTL8852CE driver INF is not an installed OEM package'};" +
+            "$packages=@(Get-WindowsDriver -Online -Driver $inf -ErrorAction Stop);" +
+            "if($packages.Count -ne 1){throw 'RTL8852CE driver package is ambiguous'};" +
+            "@{instance=$d.InstanceId;status=$d.Status;service=$s;problem=$p;classGuid=[string]$g;hardwareIds=$ids;" +
+            "inf=$packages[0].OriginalFileName}|ConvertTo-Json -Compress");
+        using var doc = JsonDocument.Parse(json);
+        var candidate = RadioBackend.ValidateRealtekDevice(doc.RootElement);
+        if (_instance is not null && !string.Equals(candidate, _instance, StringComparison.OrdinalIgnoreCase))
+            throw new IOException("专用无线网卡在本次连接中发生变化");
+        var windows = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        var path = RadioBackend.RealtekDriverPath(windows, doc.RootElement.GetProperty("inf").GetString());
+        ProtectedFiles.CheckChain(path, Path.Combine(windows, "System32", "DriverStore", "FileRepository"));
+        if (RadioBackend.RealtekDriverImageHash(File.ReadAllBytes(path)) != RadioBackend.RealtekDriverSha)
+            throw new IOException("RTL8852CE 驱动与固定的 winawdl 0.3.0 版本不同");
         _instance = candidate;
     }
 
@@ -331,7 +364,8 @@ internal static class ProtectedFiles
             if (!seen.Contains(required)) throw new InvalidDataException("安装清单缺少必需文件：" + required);
         // An unlisted Python/DLL module must not enter the installed execution chain.
         foreach (var folder in new[] { "runtime", "firmware", "python", "receiver" })
-            foreach (var path in Directory.EnumerateFileSystemEntries(Path.Combine(root, folder), "*", SearchOption.AllDirectories))
+            foreach (var path in Directory.Exists(Path.Combine(root, folder))
+                ? Directory.EnumerateFileSystemEntries(Path.Combine(root, folder), "*", SearchOption.AllDirectories) : [])
             {
                 CheckChain(path, root);
                 if (File.Exists(path) && !seen.Contains(Path.GetRelativePath(root, path).Replace('\\', '/')))
@@ -377,19 +411,21 @@ internal sealed class RadioSession(Func<string, string, Task> say) : IDisposable
             _sessionFolder = null;
             _launchAttempted = false;
             var token = _starting.Token;
-            await ProgressAsync("检查专用 MT7925 网卡和驱动");
+            await ProgressAsync("检查专用 " + RadioHost.Backend.Name + " 网卡和驱动");
             RadioHost.ValidateInstalledLocation();
             await RadioHost.VerifyDeviceAsync();
             await ProgressAsync("检查无线连接是否被占用");
-            if (Process.GetProcessesByName("winawdl_mt7925").Length != 0 || Process.GetProcessesByName("awdld").Length != 0 ||
+            if (Process.GetProcessesByName("winawdl_mt7925").Length != 0 || Process.GetProcessesByName("winawdl_radio").Length != 0 || Process.GetProcessesByName("awdld").Length != 0 ||
                 await AdapterCountAsync() != 0) throw new IOException("已有无线进程或 awdl0 接口，请先关闭原接收端");
             await ProgressAsync("检查上次连接的清理状态");
             foreach (var rule in Rules)
                 if (await RuleExistsAsync(rule)) throw new IOException("无线助手的旧防火墙规则仍存在，请查看诊断日志");
             token.ThrowIfCancellationRequested();
-            var status = RadioStatus.Read();
-            if (!status.IsFresh)
+            if (!RadioHost.Backend.IsRealtek)
             {
+                var status = RadioStatus.Read();
+                if (!status.IsFresh)
+                {
                 if (!status.IsStopped) throw new IOException("专用网卡没有确认停止，未尝试重新启动");
                 // The experimental driver permits one START per generation. This restarts only that PnP instance.
                 await ProgressAsync("重新初始化专用 MT7925 网卡");
@@ -398,6 +434,7 @@ internal sealed class RadioSession(Func<string, string, Task> say) : IDisposable
                 await ProgressAsync("确认专用网卡已重新就绪");
                 await RadioHost.VerifyDeviceAsync();
                 if (!RadioStatus.Read().IsFresh) throw new IOException("专用网卡重新初始化未完成");
+                }
             }
             token.ThrowIfCancellationRequested();
             await ProgressAsync("启动专用网卡固件");
@@ -406,13 +443,12 @@ internal sealed class RadioSession(Func<string, string, Task> say) : IDisposable
             ProtectedFiles.CheckChain(_sessionFolder, RadioHost.LogsFolder);
             _job = Native.KillOnCloseJob();
             _launchAttempted = true;
-            _radio = DaemonProcess.Launch("radio", Path.Combine(RadioHost.InstallFolder, "runtime", "winawdl_mt7925.exe"),
-                ["--run", "--firmware", Path.Combine(RadioHost.InstallFolder, "firmware"), "--country", "00", "--channel", "6",
-                 "--power-half-dbm", "44", "--fixed-channel"], _sessionFolder, _job);
-            await _radio.WaitForAsync("Local radio initialized;", TimeSpan.FromSeconds(65), token);
+            _radio = DaemonProcess.Launch("radio", Path.Combine(RadioHost.InstallFolder, "runtime", RadioHost.Backend.Executable),
+                RadioHost.Backend.RadioArguments(RadioHost.InstallFolder), _sessionFolder, _job);
+            await _radio.WaitForAsync(RadioHost.Backend.ReadyMarker, TimeSpan.FromSeconds(65), token);
             await ProgressAsync("建立 AirDrop 网络接口");
             _awdl = DaemonProcess.Launch("awdl", Path.Combine(RadioHost.InstallFolder, "runtime", "awdld.exe"),
-                ["-c", "6", "-r", "-s", "1", "-l"], _sessionFolder, _job);
+                RadioHost.Backend.AwdlArguments, _sessionFolder, _job);
             await _awdl.WaitForAsync("host interface awdl0, index ", TimeSpan.FromSeconds(35), token);
             await ProgressAsync("确认 AirDrop 网络接口已就绪");
             if (await AdapterCountAsync() != 1) throw new IOException("没有找到唯一的 AirDrop 网络接口");
@@ -513,18 +549,24 @@ internal sealed class RadioSession(Func<string, string, Task> say) : IDisposable
         catch (Exception e) when (e is IOException or JsonException or TimeoutException or Win32Exception) { notes.Add(e.Message); }
         if (_launchAttempted)
         {
-            try { driverOk = RadioStatus.Read().IsStopped; }
-            catch (Exception e) when (e is IOException or Win32Exception) { notes.Add(e.Message); }
+            try
+            {
+                if (RadioHost.Backend.IsRealtek) { await RadioHost.VerifyDeviceAsync(); driverOk = true; }
+                else driverOk = RadioStatus.Read().IsStopped;
+            }
+            catch (Exception e) when (e is IOException or InvalidDataException or Win32Exception or TimeoutException or JsonException or UnauthorizedAccessException) { notes.Add(e.Message); }
         }
         var marker = !_launchAttempted || radio is not null && radio.Saw(RadioHost.StopMarker);
-        var clean = StopDecision.Confirmed(processOk, marker, driverOk, adapterOk, rulesOk);
+        var ready = !_launchAttempted || radio is not null && radio.Saw(RadioHost.Backend.ReadyMarker);
+        var clean = RadioHost.Backend.StopConfirmed(processOk, ready, marker, driverOk, adapterOk, rulesOk);
         Faulted |= !clean;
         if (_sessionFolder is not null)
         {
             try
             {
                 File.WriteAllText(Path.Combine(_sessionFolder, "stop.json"), JsonSerializer.Serialize(new
-                { utc = DateTime.UtcNow, clean, processOk, marker, driverOk, adapterOk, rulesOk, notes }, new JsonSerializerOptions { WriteIndented = true }));
+                { utc = DateTime.UtcNow, backend = RadioHost.Backend.Id, clean, processOk, ready, marker, driverOk, adapterOk, rulesOk,
+                    hardwareQuiescenceReadback = !RadioHost.Backend.IsRealtek, notes }, new JsonSerializerOptions { WriteIndented = true }));
             }
             catch (Exception error) when (error is IOException or UnauthorizedAccessException) { clean = false; Faulted = true; }
         }
@@ -619,7 +661,7 @@ internal sealed class DaemonProcess : IDisposable
         lock (_gate)
         {
             if (_disposed) return;
-            foreach (var marker in new[] { "Local radio initialized;", "host interface awdl0, index ", RadioHost.StopMarker })
+            foreach (var marker in new[] { RadioBackend.MediaTek.ReadyMarker, RadioBackend.Realtek.ReadyMarker, "host interface awdl0, index ", RadioHost.StopMarker })
                 if (text.Contains(marker, StringComparison.Ordinal)) _markers.Add(marker);
             if (_written < 4 * 1024 * 1024)
             {

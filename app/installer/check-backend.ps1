@@ -30,7 +30,7 @@ foreach($name in $required){$path=Join-Path $fixture $name;[IO.Directory]::Creat
 $pins=@{}
 foreach($name in $files.Keys){if($name.StartsWith('runtime/') -or $name.StartsWith('firmware/')){$pins[$name]=$files[$name]}}
 function Write-FixtureManifest($Members){
-    $manifest=[ordered]@{schema='xiatiao.runtime.v1';product='XiatiaoAirDrop';sourceRuntime='fixture-runtime';sourceReceiver='fixture-receiver';files=$Members}
+    $manifest=[ordered]@{schema='xiatiao.runtime.v1';product='XiatiaoAirDrop';sourceRuntime='mt7925-transfer-runtime-r39';sourceReceiver='fixture-receiver';files=$Members}
     $bytes=[Text.UTF8Encoding]::new($false).GetBytes(($manifest|ConvertTo-Json -Depth 6))
     [IO.File]::WriteAllBytes((Join-Path $fixture 'runtime-manifest.json'),$bytes)
     return (Hash-Bytes $bytes)

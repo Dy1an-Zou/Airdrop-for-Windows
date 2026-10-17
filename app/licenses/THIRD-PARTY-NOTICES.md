@@ -7,6 +7,7 @@
 | winawdl 应用基础 | Raphaël Richaud · [winawdl](https://github.com/raph559/winawdl) | MIT · `winawdl-MIT.txt` |
 | AWDL / OWL | Milan Stute、The Open Wireless Link Project、SEEMOO / TU Darmstadt · [OWL](https://github.com/seemoo-lab/owl) | GPL-3.0-or-later，保留文件级例外 · `AWDL-GPL-3.0.txt`、`awdl/`、`upstream/owl/` |
 | MT7925 用户态无线进程 | winawdl 原生移植和本项目修改 | GPL-2.0-only，部分头文件单独标明 MIT/BSD · `Radio-GPL-2.0.txt`、`radio/` |
+| RTL8852CE 候选无线进程及配套 AWDL | Raphaël Richaud · winawdl v0.3.0、devourer 与 OWL 原作者 | GPL-2.0 / GPL-3.0，保留文件级许可；RTL 运行包的 `licenses/rtl8852ce-upstream/` 和 `source/rtl8852ce-upstream/`，固定提交与构建入口见 `docs/RTL8852CE.md` |
 | MT7925 内核移植 | Felix Fietkau、MediaTek Inc. 的参考实现及本项目移植 · [mt76](https://github.com/openwrt/mt76/tree/467ae2e3f190baf737e15e318906da0dc7d0ab91) | BSD-3-Clause-Clear · `MT7925-Clear-BSD.txt`、`driver/mt7925/` |
 | AirDrop 接收引擎 | Brent Kearney · [omdrop](https://github.com/brentkearney/omdrop-plugin) | MIT · `omdrop-MIT.txt`、`airdrop/`；保留 receiver.py / transfer.py 注记 |
 | AirDrop 发送代码 | Raphaël Richaud · [winawdl](https://github.com/raph559/winawdl) 与本项目修改 | MIT · `winawdl-MIT.txt`、`airdrop/sender.py`；保留文件内署名 |
@@ -24,7 +25,7 @@ OWL 的 hashmap 文件保留 Elliot C Back、Pete Warden、Milan Stute 的原始
 
 本仓库包含实际使用的 AWDL、用户态无线进程、驱动、Python 引擎和桌面应用源文件。仓库根的 `docs/PROVENANCE.json` 记录原冻结源包与公开整理副本之间的逐文件摘要和变动；`docs/DEPENDENCIES.json` 记录本机已验证原生二进制的摘要。
 
-公开副本的修改包括个人标识中性化、工具链路径参数化、公共文档和定稿图标。协议、驱动实现及其安全校验未为公开打包而重写。公开副本未重新编译或进行另一台设备的验证。重新分发自行修改后的 GPL 组件时，应同时提供与该发行版相应的实际源码、构建入口和许可证，不能只提供上游项目链接。
+0.2.3 公开整理包含个人标识中性化、工具链路径参数化、公共文档和定稿图标。0.2.4 候选另外增加桌面和安装器的 RTL 后端选择与校验，原生 RTL 二进制直接取自固定上游发行包，没有重新编译或修改。离线验证范围见 `docs/RTL8852CE-VALIDATION.md`，RTL 实机尚未验证。重新分发自行修改后的 GPL 组件时，应同时提供与该发行版相应的实际源码、构建入口和许可证，不能只提供上游项目链接。
 
 运行包的打包入口将源码保存在包内 `source/`，此时上述目录位于 `source/` 下。Wintun、固件和 Python 应按各自条款原样保留通知，不改署名或重新声明为本项目 MIT。
 

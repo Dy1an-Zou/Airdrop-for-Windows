@@ -15,6 +15,8 @@ internal static class Program
     {
         if (args.Contains("--xiatiao-radio-host")) return RadioHost.Run(Array.Empty<string>());
         if (args.Contains("--xiatiao-host-check")) return RadioHost.Check(Array.Empty<string>());
+        if (Array.IndexOf(args, "--xiatiao-backend-check") is var backendIndex && backendIndex >= 0)
+            return RadioBackendChecks.Run(backendIndex + 1 < args.Length ? args[backendIndex + 1] : null);
         if (args.Contains("--xiatiao-check")) return AppChecks.Run(args);
         if (Array.IndexOf(args, "--xiatiao-language-check") is var languageIndex && languageIndex >= 0 && languageIndex + 1 < args.Length) return LanguageChecks.Run(args[languageIndex + 1]);
         if (Array.IndexOf(args, "--xiatiao-ui-check") is var uiIndex && uiIndex >= 0 && uiIndex + 1 < args.Length) return UiChecks.Run(args[uiIndex + 1]);

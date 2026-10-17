@@ -107,7 +107,7 @@ public partial class XiatiaoWindow : Window
         body.Children.Add(new Image { Source = _brand, Height = 140, Width = 140, Margin = new Thickness(0, 5, 0, 12), Stretch = Stretch.Uniform });
         body.Children.Add(Centered("Airdrop for Windows", 25, FontWeights.SemiBold));
         body.Children.Add(Centered("作者  Dy1an-Zou", 15, FontWeights.Medium, 22));
-        body.Children.Add(Centered("版本 0.2.3", 13, FontWeights.Normal, 7));
+        body.Children.Add(Centered("版本 0.2.4", 13, FontWeights.Normal, 7));
         body.Children.Add(Centered("基于 winawdl 及开放源代码项目构建", 13, FontWeights.Normal, 22));
         body.Children.Add(LinkButton("winawdl · 上游项目", "https://github.com/raph559/winawdl"));
         body.Children.Add(LinkButton("Uiverse / Galaxy · 界面组件来源", "https://github.com/uiverse-io/galaxy"));
