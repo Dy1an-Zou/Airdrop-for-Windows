@@ -1,0 +1,97 @@
+{
+  "retrieved_at": "2026-10-16T09:45:27.349426+08:00",
+  "repository": "https://github.com/uiverse-io/galaxy",
+  "commit": "adbd2adde0a299a3956ea288fb444ec01891ca41",
+  "license_sha256": "7feadcd7a611d37a4546c99f63a162bdf65656137828ebcba92e57dccfa368a4",
+  "components": [
+    {
+      "role": "button",
+      "author": "AhSiber",
+      "uiverse_url": "https://uiverse.io/AhSiber/great-gecko-98",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Buttons/AhSiber_great-gecko-98.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/Buttons/AhSiber_great-gecko-98.html",
+      "local_file": "galaxy/Buttons/AhSiber_great-gecko-98.html",
+      "sha256": "170482bae9260e497b3a15e7f31ddeceafeafdeedaf86b9922b5ac5d4f26b030",
+      "license": "MIT",
+      "adaptation": "保存、选择文件夹、打开文件、关于、确认与拒绝；保留描边和悬停填色，取消斜体"
+    },
+    {
+      "role": "input",
+      "author": "alexruix",
+      "uiverse_url": "https://uiverse.io/alexruix/slippery-frog-10",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Inputs/alexruix_slippery-frog-10.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/Inputs/alexruix_slippery-frog-10.html",
+      "local_file": "galaxy/Inputs/alexruix_slippery-frog-10.html",
+      "sha256": "072c5492d74cd81cf966822621bc2ca24e569476822aa00c59c6a0439a2283b5",
+      "license": "MIT",
+      "adaptation": "名称/保存路径/历史搜索；灰底8px圆角，琥珀焦点，名称与路径不放搜索图标"
+    },
+    {
+      "role": "toggle",
+      "author": "gharsh11032000 (Harsh Gupta)",
+      "uiverse_url": "https://uiverse.io/gharsh11032000/green-liger-89",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Toggle-switches/gharsh11032000_green-liger-89.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/Toggle-switches/gharsh11032000_green-liger-89.html",
+      "local_file": "galaxy/Toggle-switches/gharsh11032000_green-liger-89.html",
+      "sha256": "178b13815bed7a05aab05f56b8690c8b309390f37b9f1d06371cf322ffd11f0c",
+      "license": "MIT",
+      "adaptation": "AirDrop总开关、登录启动；忠实采用59.5×34比例、白色34圆点、关闭#9fccfa/开启#0974f1、27.2位移、向下10/模糊20/40%黑影；400ms cubic-bezier(0.175,0.885,0.32,1.275)，系统减少动画时即时切换",
+      "retrieved_at": "2026-10-16T11:36:06.0519730+00:00"
+    },
+    {
+      "role": "card",
+      "author": "Sujitkavaiya",
+      "uiverse_url": "https://uiverse.io/Sujitkavaiya/mighty-pig-81",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Cards/Sujitkavaiya_mighty-pig-81.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/Cards/Sujitkavaiya_mighty-pig-81.html",
+      "local_file": "galaxy/Cards/Sujitkavaiya_mighty-pig-81.html",
+      "sha256": "8e58a0b04e53d0016763bed056db4007bd8943e1d65d0782d93dd684a36f9153",
+      "license": "MIT",
+      "adaptation": "设置区容器、传输列表容器、文件缩略图、对话框外壳；暖白底浅描边，悬停琥珀描边"
+    },
+    {
+      "role": "about",
+      "author": "alexruix",
+      "uiverse_url": "https://uiverse.io/alexruix/tough-shrimp-75",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Cards/alexruix_tough-shrimp-75.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/Cards/alexruix_tough-shrimp-75.html",
+      "local_file": "galaxy/Cards/alexruix_tough-shrimp-75.html",
+      "sha256": "72d2891ce40d164aace253c7477ed7fda854626dfa47996530590bc59718245a",
+      "license": "MIT",
+      "adaptation": "关于页大logo上方与居中作者文字结构；去掉彩虹渐变/悬浮位移，使用虾条logo"
+    },
+    {
+      "role": "notification",
+      "author": "alexruix",
+      "uiverse_url": "https://uiverse.io/alexruix/gentle-octopus-87",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/Notifications/alexruix_gentle-octopus-87.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/Notifications/alexruix_gentle-octopus-87.html",
+      "local_file": "galaxy/Notifications/alexruix_gentle-octopus-87.html",
+      "sha256": "14d5db1cac22fb6e02e36f0a688e0f20e8acafc14ebba2731c25cc130f615a5b",
+      "license": "MIT",
+      "adaptation": "接收请求和状态条：头像+文字结构；取消登场/循环动画，改为常驻可读反馈"
+    },
+    {
+      "role": "alternate-segmented-loader",
+      "author": "doniaskima",
+      "uiverse_url": "https://uiverse.io/doniaskima/yellow-deer-12",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/loaders/doniaskima_yellow-deer-12.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/loaders/doniaskima_yellow-deer-12.html",
+      "local_file": "galaxy/loaders/doniaskima_yellow-deer-12.html",
+      "sha256": "01231b881ffd233563c8bed4cff1b45f228151ac2a9bab0e0bbb59635c96e845",
+      "license": "MIT",
+      "adaptation": "Minimal gray track and dark progress bar. Bind width to real progress; use indeterminate animation only when progress is unknown."
+    },
+    {
+      "role": "progress",
+      "author": "mrhyddenn",
+      "uiverse_url": "https://uiverse.io/mrhyddenn/tasty-crab-98",
+      "repository_url": "https://github.com/uiverse-io/galaxy/blob/adbd2adde0a299a3956ea288fb444ec01891ca41/loaders/mrhyddenn_tasty-crab-98.html",
+      "raw_url": "https://raw.githubusercontent.com/uiverse-io/galaxy/adbd2adde0a299a3956ea288fb444ec01891ca41/loaders/mrhyddenn_tasty-crab-98.html",
+      "local_file": "galaxy/loaders/mrhyddenn_tasty-crab-98.html",
+      "sha256": "8989e9e142ad42cf64f1cbd232454a52ec975c70b869f43da07a15fe996db70d",
+      "license": "MIT",
+      "adaptation": "3px thin rounded track and progress fill. Bind width to real progress; remove percentage loop when progress is known."
+    }
+  ]
+}

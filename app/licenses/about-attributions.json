@@ -1,0 +1,47 @@
+{
+  "author": "Dy1an-Zou",
+  "description": "Windows 上的实验性 AirDrop 收发工具",
+  "based_on": [
+    {
+      "name": "winawdl",
+      "author": "Raphaël Richaud",
+      "url": "https://github.com/raph559/winawdl",
+      "license": "MIT"
+    },
+    {
+      "name": "OWL / Open Wireless Link",
+      "author": "Milan Stute · The Open Wireless Link Project · SEEMOO / TU Darmstadt",
+      "url": "https://github.com/seemoo-lab/owl",
+      "license": "GPL-3.0-or-later"
+    },
+    {
+      "name": "omdrop",
+      "author": "Brent Kearney",
+      "url": "https://github.com/brentkearney/omdrop-plugin",
+      "license": "MIT"
+    },
+    {
+      "name": "Wintun",
+      "author": "WireGuard LLC",
+      "url": "https://www.wintun.net/",
+      "license": "Prebuilt Binaries License"
+    },
+    {
+      "name": "Uiverse / Galaxy",
+      "author": "AhSiber · alexruix · Sujitkavaiya · mrhyddenn · gharsh11032000 (Harsh Gupta)",
+      "url": "https://github.com/uiverse-io/galaxy",
+      "license": "MIT"
+    },
+    {
+      "name": "Python",
+      "version": "3.14.8",
+      "author": "Python Software Foundation and contributors",
+      "url": "https://www.python.org/downloads/release/python-3148/",
+      "license": "PSF-2.0; bundled dependency licenses preserved"
+    }
+  ],
+  "notice": "AirDrop 是 Apple Inc. 的商标。本软件为独立项目，与 Apple Inc. 无隶属或认可关系。",
+  "local_notices": "licenses/THIRD-PARTY-NOTICES.md",
+  "license_directory": "licenses",
+  "corresponding_source": "source/"
+}

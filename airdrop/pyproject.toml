@@ -1,0 +1,9 @@
+[project]
+name = "winawdl-airdrop"
+version = "0.1.0"
+description = "Windows AirDrop protocol engine and native radio diagnostics"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.ruff]
+line-length = 100

@@ -1,0 +1,23 @@
+Airdrop for Windows is a collection of separately licensed components.
+
+Copyright (c) 2026 Dy1an-Zou for the Airdrop for Windows desktop integration.
+Upstream copyrights and file-level notices remain with their respective authors.
+
+Component licensing:
+- app/src/Xiatiao and app/scripts: MIT; see app/licenses/Xiatiao-MIT.txt.
+- airdrop: MIT; see airdrop/LICENSE and source-file attribution.
+- awdl and upstream/owl: GPL-3.0-or-later, except separately marked files;
+  see awdl/LICENSE and upstream/owl/COPYING.
+- radio: GPL-2.0-only, except separately marked headers; see radio/LICENSE.
+- driver/mt7925: BSD-3-Clause-Clear; see driver/mt7925/LICENSE.
+- upstream/owl/radiotap: ISC; see upstream/owl/radiotap/COPYING.
+- Uiverse/Galaxy components: MIT; see app/design-sources and app/licenses.
+
+Firmware, Wintun, Python runtime binaries, and signing credentials are not
+included in this source repository. Their notices are retained as dependency
+documentation. They keep their separate licenses if included in a distribution.
+
+Artwork, Apple marks and the AirDrop symbol are excluded from the MIT grant
+for code. See app/design-sources/ARTWORK.md.
+
+This file is a license map, not a replacement for any original license.

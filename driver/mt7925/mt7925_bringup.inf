@@ -1,0 +1,58 @@
+; Diagnostic-only KMDF candidate. Does not provide a Windows network adapter.
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider=%Provider%
+DriverVer=10/13/2026,0.0.3.0
+CatalogFile=mt7925_bringup.cat
+PnpLockdown=1
+
+[Manufacturer]
+%Provider%=Devices,NTamd64.10.0...26100
+
+[Devices.NTamd64.10.0...26100]
+%Description%=Install,PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00
+
+[DestinationDirs]
+DriverFiles=13
+
+[SourceDisksNames]
+1=%Disk%,,,
+
+[SourceDisksFiles]
+mt7925_bringup.sys=1
+
+[Install.NT]
+CopyFiles=DriverFiles
+
+[DriverFiles]
+mt7925_bringup.sys
+
+[Install.NT.Services]
+AddService=mt7925_bringup,0x00000002,Service,EventLog
+
+[EventLog]
+AddReg=EventLog.AddReg
+
+[EventLog.AddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll"
+HKR,,TypesSupported,0x00010001,7
+
+[Service]
+DisplayName=%Description%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%13%\mt7925_bringup.sys
+
+[Install.NT.Wdf]
+KmdfService=mt7925_bringup,Wdf
+
+[Wdf]
+KmdfLibraryVersion=1.33
+
+[Strings]
+Provider="Local MT7925 Development"
+Description="MT7925 PCIe diagnostic candidate"
+Disk="MT7925 diagnostic package"

@@ -1,0 +1,58 @@
+{
+  "schema": "xiatiao.public-dependencies.v1",
+  "runtime_binaries_included": false,
+  "python": {
+    "version": "3.14.8",
+    "url": "https://www.python.org/ftp/python/3.14.8/python-3.14.8-embed-amd64.zip",
+    "sha256": "a93abe456ab01bd96d7a085b3cdb6566b3063f4241360d114142fbdb07f0a310"
+  },
+  "dotnet": {
+    "target": "net10.0-windows",
+    "build_sdk": "10.0.402",
+    "runtime": "Microsoft.WindowsDesktop.App 10.x x64"
+  },
+  "wintun": {
+    "version": "0.14.1",
+    "url": "https://www.wintun.net/builds/wintun-0.14.1.zip",
+    "architecture": "amd64",
+    "dll_sha256": "e5da8447dc2c320edc0fc52fa01885c103de8c118481f683643cacc3220dafce"
+  },
+  "firmware": [
+    {
+      "name": "LICENCE.mediatek",
+      "revision": "3c11e660d3a8f8b35e12809b4b721a722b597148",
+      "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/firmware/linux-firmware/+/3c11e660d3a8f8b35e12809b4b721a722b597148/LICENSES/LICENCE.mediatek",
+      "size": 561,
+      "sha256": "a90d3f66704d85889945fec5525ea77622549da83aced1aac99828383f8f1805"
+    },
+    {
+      "name": "WIFI_MT7925_PATCH_MCU_1_1_hdr.bin",
+      "revision": "3c11e660d3a8f8b35e12809b4b721a722b597148",
+      "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/firmware/linux-firmware/+/3c11e660d3a8f8b35e12809b4b721a722b597148/mediatek/mt7925/WIFI_MT7925_PATCH_MCU_1_1_hdr.bin",
+      "size": 188192,
+      "sha256": "8eb46014d2a6b4124472eee7476d995008a6f40b1daffef87eb42f30d98699e1"
+    },
+    {
+      "name": "WIFI_RAM_CODE_MT7925_1_1.bin",
+      "revision": "3c11e660d3a8f8b35e12809b4b721a722b597148",
+      "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/firmware/linux-firmware/+/3c11e660d3a8f8b35e12809b4b721a722b597148/mediatek/mt7925/WIFI_RAM_CODE_MT7925_1_1.bin",
+      "size": 1392088,
+      "sha256": "23ff53b4bb639b30481e2e06bb1688569ad1ba971b897936db539882abfbd120"
+    }
+  ],
+  "pinned_native_artifacts": {
+    "awdld.exe": "cc4cc3bdffb8ae3ed18dd9d7d7056fd1769ba1e55b9338619a2eb552d5f29130",
+    "winawdl_mt7925.exe": "79e1bc7422c699cd6b0dfd378c9c910dc1d6d3654d748aa904e7232e9f880df2",
+    "signed_mt7925_bringup.sys": "938148d69b14c911c18c4c7a9ef00703ad5625e46d876143b8f887df6762aafb"
+  },
+  "kernel_kit": {
+    "nuget_version": "10.0.26100.1",
+    "kit": "10.0.26100.0",
+    "kmdf": "1.33",
+    "packages": [
+      "microsoft.windows.wdk.x64",
+      "microsoft.windows.sdk.cpp.x64",
+      "microsoft.windows.sdk.cpp"
+    ]
+  }
+}

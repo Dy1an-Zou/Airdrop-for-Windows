@@ -1,0 +1,9 @@
+<Project>
+  <!-- Everything a build writes goes under build\app, which git ignores. -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\build\app\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)..\build\app\$(MSBuildProjectName)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+</Project>

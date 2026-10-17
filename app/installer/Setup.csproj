@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Airdrop-for-Windows-0.2.3-Setup-x64</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutDir Condition="'$(OutDir)' == ''">..\..\build\installer\</OutDir>
+    <PayloadDir Condition="'$(PayloadDir)' == ''">payload</PayloadDir>
+    <FrameworkDir>$(WINDIR)\Microsoft.NET\Framework64\v4.0.30319\</FrameworkDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Setup.cs"/>
+    <EmbeddedResource Include="$(PayloadDir)\payload.zip"><LogicalName>payload.zip</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="$(PayloadDir)\manifest.sha256"><LogicalName>manifest.sha256</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="setup-backend.ps1"><LogicalName>setup-backend.ps1</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="..\assets\xiatiao-airdrop.ico"><LogicalName>app.ico</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="..\assets\xiatiao-airdrop.png"><LogicalName>app.png</LogicalName></EmbeddedResource>
+    <Reference Include="$(FrameworkDir)mscorlib.dll"/>
+    <Reference Include="$(FrameworkDir)System.dll"/>
+    <Reference Include="$(FrameworkDir)System.Core.dll"/>
+    <Reference Include="$(FrameworkDir)System.Drawing.dll"/>
+    <Reference Include="$(FrameworkDir)System.Windows.Forms.dll"/>
+    <Reference Include="$(FrameworkDir)System.Web.Extensions.dll"/>
+    <Reference Include="$(FrameworkDir)System.IO.Compression.dll"/>
+    <Reference Include="$(FrameworkDir)System.IO.Compression.FileSystem.dll"/>
+  </ItemGroup>
+  <UsingTask TaskName="Microsoft.Build.Tasks.Csc" AssemblyFile="$(FrameworkDir)Microsoft.Build.Tasks.v4.0.dll"/>
+  <Target Name="Build">
+    <Error Condition="!Exists('$(PayloadDir)\payload.zip')" Text="Build the verified release payload first. See README.md."/>
+    <MakeDir Directories="$(OutDir)"/>
+    <Csc Sources="@(Compile)" References="@(Reference)" Resources="@(EmbeddedResource)" OutputAssembly="$(OutDir)$(AssemblyName).exe" TargetType="winexe" Platform="x64" Optimize="true" NoStandardLib="true" Win32Icon="..\assets\xiatiao-airdrop.ico" Win32Manifest="setup.manifest" WarningLevel="4"/>
+  </Target>
+</Project>

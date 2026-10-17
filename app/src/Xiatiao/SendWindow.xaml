@@ -1,0 +1,123 @@
+<!-- SPDX-License-Identifier: MIT -->
+<Window x:Class="Winawdl.Xiatiao.SendWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Winawdl.Xiatiao"
+        Title="{local:Loc '发送文件 · Airdrop for Windows'}" Width="660" Height="760" MinWidth="560" MinHeight="650"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Background="{DynamicResource CanvasBrush}" Foreground="{DynamicResource InkBrush}"
+        FontFamily="Segoe UI, Microsoft YaHei UI" FontSize="14" UseLayoutRounding="True" SnapsToDevicePixels="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="UiStyles.xaml"/></ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="26,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{local:Loc '发送到 Apple 设备'}" FontSize="23" FontWeight="SemiBold"/>
+        <TextBlock Grid.Row="1" Text="{local:Loc '在 Apple 设备上打开 AirDrop，并选择“所有人，10 分钟”。'}" Style="{StaticResource SecondaryText}"
+                   Margin="0,8,0,20" TextWrapping="Wrap"/>
+        <Border Grid.Row="2" Style="{StaticResource PanelSurface}" Padding="16" Margin="0,0,0,16">
+            <Grid>
+                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{local:Loc '待发送'}" FontSize="16" FontWeight="SemiBold"/>
+                        <TextBlock x:Name="OutgoingFileCount" Style="{StaticResource SecondaryText}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="{local:Loc '选择文件…'}" Command="{Binding ChooseFilesCommand}" IsEnabled="{Binding CanEditFiles}" Style="{StaticResource ActionButton}"/>
+                </Grid>
+                <Grid Grid.Row="1" MinHeight="70">
+                    <ListBox ItemsSource="{Binding Files}" MaxHeight="140" Background="Transparent" BorderThickness="0" Padding="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="{local:Loc '待发送文件'}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem"><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="0,5"/></Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                    <StackPanel Margin="0,0,14,0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding FileName}" TextTrimming="CharacterEllipsis" ToolTip="{Binding FullPath}" FontSize="13"/>
+                                        <TextBlock Text="{Binding SizeText}" Style="{StaticResource SecondaryText}" Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="1" Content="{local:Loc '移除'}" Command="{Binding DataContext.RemoveFileCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}" IsEnabled="{Binding DataContext.CanEditFiles, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            Style="{StaticResource QuietButton}" Padding="9,4" MinHeight="28" FontSize="12"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock Text="{local:Loc '选择照片或文件，可以一次发送多个。'}" VerticalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap">
+                        <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource SecondaryText}"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Files.Count}" Value="0"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+        </Border>
+        <Border Grid.Row="3" Style="{StaticResource PanelSurface}" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <TextBlock Text="{local:Loc '附近设备'}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="{local:Loc '重新搜索'}" Command="{Binding SearchCommand}" Style="{StaticResource QuietButton}">
+                        <Button.IsEnabled><Binding Path="CanEditFiles"/></Button.IsEnabled>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <ListBox ItemsSource="{Binding Peers}" SelectedItem="{Binding SelectedPeer, Mode=TwoWay}" Background="Transparent" BorderThickness="0"
+                             IsEnabled="{Binding CanEditFiles}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="{local:Loc '选择接收设备'}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource FileSelectionTile}">
+                                <Setter Property="Width" Value="Auto"/><Setter Property="Margin" Value="0,0,0,8"/>
+                                <Setter Property="ToolTip" Value="{Binding Name}"/><Setter Property="AutomationProperties.Name" Value="{Binding Name}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding Model}" Style="{StaticResource SecondaryText}" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel VerticalAlignment="Center" Margin="14" IsHitTestVisible="False">
+                        <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Peers.Count}" Value="0"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></StackPanel.Style>
+                        <TextBlock Text="{local:Loc '尚未发现附近设备'}" FontSize="16" TextAlignment="Center"/>
+                        <TextBlock Text="{local:Loc '保持对方的 Wi-Fi 和蓝牙开启，&#x0a;解锁设备并停留在 AirDrop 页面。'}" Style="{StaticResource SecondaryText}" TextAlignment="Center" TextWrapping="Wrap" LineHeight="21" Margin="0,9,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="4" Margin="0,18,0,0">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+            <TextBlock Grid.Row="1" Text="{Binding DetailText}" Style="{StaticResource SecondaryText}" TextWrapping="Wrap" Margin="0,5,0,0"/>
+            <ProgressBar Grid.Row="2" Value="{Binding Progress, Mode=OneWay}" Maximum="100" Margin="0,11,0,0" AutomationProperties.Name="{local:Loc '文件发送进度'}">
+                <ProgressBar.Style>
+                    <Style TargetType="ProgressBar" BasedOn="{StaticResource TransferProgress}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions><Condition Binding="{Binding IsSending}" Value="True"/><Condition Binding="{Binding IsIndeterminate}" Value="False"/></MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
+            <Grid Grid.Row="3" Margin="0,16,0,0">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <TextBlock Text="{local:Loc '发送时可关闭此窗口，软件会在后台继续。'}" Style="{StaticResource SecondaryText}" VerticalAlignment="Center" Margin="0,0,16,0" TextWrapping="Wrap"/>
+                <Button Grid.Column="1" Content="{local:Loc '取消发送'}" Command="{Binding CancelCommand}" Style="{StaticResource ActionButton}" Margin="0,0,8,0"
+                        Visibility="{Binding IsSending, Converter={StaticResource BoolVisibility}}"/>
+                <Button Grid.Column="2" Content="{local:Loc '发送'}" Command="{Binding SendCommand}" IsEnabled="{Binding CanSend}" Style="{StaticResource PrimaryButton}" MinWidth="90"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

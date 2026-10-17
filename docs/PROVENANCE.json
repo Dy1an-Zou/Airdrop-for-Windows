@@ -1,0 +1,1291 @@
+{
+  "schema": "xiatiao.public-source-origin.v1",
+  "frozen_archive_name": "native-corresponding-source-r39-r36.zip",
+  "frozen_archive_sha256": "644a3a542ee61d3ee17cc3b26364df21ea69e81b34aea830ded80235a123d465",
+  "native_reference_revisions": {
+    "awdl": "r39",
+    "radio": "r36",
+    "kernel": "r36",
+    "receiver": "r3"
+  },
+  "public_copy_built": false,
+  "public_copy_cross_machine_verified": false,
+  "changes": [
+    "Personal display names were replaced with Xiatiao Windows or a generic preview sender.",
+    "Device instance was replaced by CONFIGURE_YOUR_MT7925_INSTANCE_ID, so it cannot target the original computer.",
+    "AWDL and radio build scripts take explicit toolchain paths.",
+    "The synthetic full-frame fixture device name was replaced by an equal-length neutral name; other frame bytes are unchanged.",
+    "Public README, dependency/license/source documentation and packaging paths were prepared.",
+    "Final Aseprite artwork was copied without edits.",
+    "Product display name, Windows file description, default new-profile name and folder, UI text and shortcut labels were changed to Airdrop for Windows at the user request; existing profile settings and internal runtime identities remain unchanged.",
+    "Version 0.2.0 adds a sender, file selection/actions, animated switches and real startup stages. Apple-device send acceptance remains pending. Author identity updated to Dy1an-Zou; native radio binaries and public hardware placeholder remain unchanged.",
+    "Both desktop switches use the user-selected gharsh11032000 green-liger-89 component with its 400 ms motion. Its unmodified HTML, source hash and MIT attribution are included; other component sources remain preserved.",
+    "Final rendered layout adds settings-panel margins so the chosen switch shadows are not clipped; Apple-device send acceptance remains pending.",
+    "On 2026-10-16, the user confirmed one image sent successfully from the locally installed 0.2.0 application with the dedicated MT7925 to an iPhone; runtime logs recorded accepted and sent. Earlier pending entries are historical snapshots. This acceptance does not establish compatibility with all Apple devices or a separately built public copy.",
+    "0.2.1 corrects the capsule switch geometry and mouse focus behavior and adds received-file marquee selection. Radio/driver/receiver binaries and approved artwork are unchanged. Focused UI checks are implementation checks, not new Apple-device acceptance.",
+    "0.2.2 aligns the two switch right edges, including a scrollbar-aware header gutter and collapsed settings. Radio/driver/receiver binaries and approved artwork are unchanged. Focused UI checks are implementation checks, not new Apple-device acceptance.",
+    "0.2.3 adds Chinese/English interface, persistent language, automatic unique supported MT7925 instance discovery, and a bilingual installer. Transfer engine/native binaries and artwork are unchanged. The offline receive_trial example name is generic and its manifest digest is updated. Earlier placeholder and pending records describe historical revisions. New validation is offline only; no new device or fresh-machine install acceptance is implied."
+  ],
+  "native_source_files": [
+    {
+      "path": "airdrop/cpio.py",
+      "original_sha256": "d53f88f2a3e76159903dd91c13d6dbf7cdbab693ffef5813e398b097fd1d9190",
+      "public_sha256": "d53f88f2a3e76159903dd91c13d6dbf7cdbab693ffef5813e398b097fd1d9190",
+      "changed": false
+    },
+    {
+      "path": "airdrop/engine.py",
+      "original_sha256": "bb3371a1dd45a58b0d00c77193d4fc5c37b14472fc4745aa46d6c3323db547aa",
+      "public_sha256": "83b32db276343d1f5516566f5e6f8ee36c57e29314791c7bedfc91e8eba4fd2c",
+      "changed": true
+    },
+    {
+      "path": "airdrop/identity.py",
+      "original_sha256": "f9ab2b1a43ea564a12faaed75e1218b67e4034a2787462743f5ac463b0c6c289",
+      "public_sha256": "f9ab2b1a43ea564a12faaed75e1218b67e4034a2787462743f5ac463b0c6c289",
+      "changed": false
+    },
+    {
+      "path": "airdrop/loopback_check.py",
+      "original_sha256": "92b5fdef3ac1375d402c9e9e6d0f8a24de5a7afda4e21647bfdc6b9c9f31a1fa",
+      "public_sha256": "92b5fdef3ac1375d402c9e9e6d0f8a24de5a7afda4e21647bfdc6b9c9f31a1fa",
+      "changed": false
+    },
+    {
+      "path": "airdrop/mdns.py",
+      "original_sha256": "6035bfa38dbff9eb6c6e129eeb0eab01905b1f95777ce9fd75da243304b5f2d6",
+      "public_sha256": "6035bfa38dbff9eb6c6e129eeb0eab01905b1f95777ce9fd75da243304b5f2d6",
+      "changed": false
+    },
+    {
+      "path": "airdrop/netif.py",
+      "original_sha256": "434a3b59dfce164a36f94458b4518f46e1d62b38ddcc3bd382dbfefd6cee92e5",
+      "public_sha256": "434a3b59dfce164a36f94458b4518f46e1d62b38ddcc3bd382dbfefd6cee92e5",
+      "changed": false
+    },
+    {
+      "path": "airdrop/receive_trial.py",
+      "original_sha256": "07261546dc3bbf20604699f98236b8d7f9c0335333b272e40ff624f898fdab6d",
+      "public_sha256": "5d83b392de7ab14346c6814c6a77c081f5da1a1ddae3803e7c449d02a630c936",
+      "changed": true
+    },
+    {
+      "path": "airdrop/receiver.py",
+      "original_sha256": "8f2b08e7d0b5435495b5d36722c860c79bc617adb22aaf75f6cb5d4ab0631943",
+      "public_sha256": "fb56f43da2812c331ad28fad0d3b5b3bca4be3196e3813cee4ba0a1efbfb2378",
+      "changed": true
+    },
+    {
+      "path": "airdrop/redact.py",
+      "original_sha256": "62990f356438f75af61b863796563edcf14f5f9551a1f5ae19019243fb557563",
+      "public_sha256": "62990f356438f75af61b863796563edcf14f5f9551a1f5ae19019243fb557563",
+      "changed": false
+    },
+    {
+      "path": "airdrop/sender.py",
+      "original_sha256": "611ea4075b738f0221da828ece30b8696af2cc247426dc1f16e2f90b0bc90c58",
+      "public_sha256": "d6265b946b991cb1ca006911a93430ef6773838040c8a1d9aa70b6effe82bb54",
+      "changed": true
+    },
+    {
+      "path": "airdrop/transfer.py",
+      "original_sha256": "e0d5d0edd88ec1c8270d8c41fafd582690ab5915c6a6e848c03768b1c4c7f8b2",
+      "public_sha256": "e0d5d0edd88ec1c8270d8c41fafd582690ab5915c6a6e848c03768b1c4c7f8b2",
+      "changed": false
+    },
+    {
+      "path": "airdrop/windows_radio.py",
+      "original_sha256": "447dc2c5a8449a37003c698d0b0d956f46734ba7f7722d39bbae2a10245395c1",
+      "public_sha256": "447dc2c5a8449a37003c698d0b0d956f46734ba7f7722d39bbae2a10245395c1",
+      "changed": false
+    },
+    {
+      "path": "awdl/CMakeLists.txt",
+      "original_sha256": "8a508613baa32d9fa55932e446827c67dba47faa786c9e2ee061d58a9a8cae0f",
+      "public_sha256": "8a508613baa32d9fa55932e446827c67dba47faa786c9e2ee061d58a9a8cae0f",
+      "changed": false
+    },
+    {
+      "path": "awdl/LICENSE",
+      "original_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "public_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "changed": false
+    },
+    {
+      "path": "awdl/build_clang.py",
+      "original_sha256": "40dc1225a38c6a7c727448e141f4d9d2e4ea0f08442f9b60f578d58e40bcdd77",
+      "public_sha256": "4cc720ed367f043a02792e9ccacc01b2cf5b2b4a50308f2e25475965582ffc53",
+      "changed": true
+    },
+    {
+      "path": "awdl/compat/endian.h",
+      "original_sha256": "3b4314f6f5a374a36a6bb053824eb5f233d7c118e761c833a44938c2dea8f3c9",
+      "public_sha256": "3b4314f6f5a374a36a6bb053824eb5f233d7c118e761c833a44938c2dea8f3c9",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/ether.c",
+      "original_sha256": "37ea1f21b916ce02376087e8eab4287351b94373fc9847d375591df172f0a36d",
+      "public_sha256": "37ea1f21b916ce02376087e8eab4287351b94373fc9847d375591df172f0a36d",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/ev.h",
+      "original_sha256": "265565aba8fd4ab8a8a79b0d6afffb19db042ff425bfabc672cb470460f11f3d",
+      "public_sha256": "265565aba8fd4ab8a8a79b0d6afffb19db042ff425bfabc672cb470460f11f3d",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/msvc/getopt.h",
+      "original_sha256": "92e8cb5b329ec79ca7fd42f66306dfd18b80d138c358ce9d264c031ed3b232f4",
+      "public_sha256": "92e8cb5b329ec79ca7fd42f66306dfd18b80d138c358ce9d264c031ed3b232f4",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/msvc/strings.h",
+      "original_sha256": "1cf8957005ae33eecba22c3b62c6156831953fb0691822f8b6a81e5a874577d3",
+      "public_sha256": "1cf8957005ae33eecba22c3b62c6156831953fb0691822f8b6a81e5a874577d3",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/msvc/sys/time.h",
+      "original_sha256": "f725ce3579cb3bab7e8a98c4e1e5ccbe37e4f8afed17dfb97065f9956bc16e47",
+      "public_sha256": "f725ce3579cb3bab7e8a98c4e1e5ccbe37e4f8afed17dfb97065f9956bc16e47",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/net/ethernet.h",
+      "original_sha256": "aab84d59a53da0a43aff4cd797175fbe8e39907fd39b3f15591d6e84ecd836f2",
+      "public_sha256": "aab84d59a53da0a43aff4cd797175fbe8e39907fd39b3f15591d6e84ecd836f2",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/net/if.h",
+      "original_sha256": "cc3b74d08713fdef56362084957913b013005b046a8c989a7da2c215eb8d4661",
+      "public_sha256": "cc3b74d08713fdef56362084957913b013005b046a8c989a7da2c215eb8d4661",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/netinet/ether.h",
+      "original_sha256": "f630bb6247dd53fb6e2bc9e618908110dc1b54a71f42342ff21f3d645b6162d4",
+      "public_sha256": "f630bb6247dd53fb6e2bc9e618908110dc1b54a71f42342ff21f3d645b6162d4",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/netinet/in.h",
+      "original_sha256": "6e25ef7e15a781b443a50100ee26422f8d5a4fad8c83266711ec50c9076cda91",
+      "public_sha256": "6e25ef7e15a781b443a50100ee26422f8d5a4fad8c83266711ec50c9076cda91",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/netinet/ip6.h",
+      "original_sha256": "11dd357be3ac4d389b85a8f035a3282f2dc2f19f4fd6225a452308ac04f7bb29",
+      "public_sha256": "11dd357be3ac4d389b85a8f035a3282f2dc2f19f4fd6225a452308ac04f7bb29",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/owl_win.h",
+      "original_sha256": "4d902bdd2ec03ad2cf2cc8bcfaa5086720c03a3184a69d6590c747fd1c066be5",
+      "public_sha256": "4d902bdd2ec03ad2cf2cc8bcfaa5086720c03a3184a69d6590c747fd1c066be5",
+      "changed": false
+    },
+    {
+      "path": "awdl/compat/pcap/pcap.h",
+      "original_sha256": "c5053645712f11c3c2441dbc0bac727b975e881c7ee460f26a5f810e1f592139",
+      "public_sha256": "c5053645712f11c3c2441dbc0bac727b975e881c7ee460f26a5f810e1f592139",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/dualband_baseline.h",
+      "original_sha256": "ff14822c2512263d0d1788fa03abee0bcef3bcff70175edf53b63e06370cec4d",
+      "public_sha256": "d5e64f3e332b149a1bf660cfe969d26f4596814358d24186397183647ac1299b",
+      "changed": true
+    },
+    {
+      "path": "awdl/tests/dualband_frame_test.c",
+      "original_sha256": "cc336f3fc1cd906f36e941a680920b4ca41b07690b904638e021a14ae357548e",
+      "public_sha256": "88d537fc16ea720881015cc6ec50a440da374465f5b0d2376b23156cfe1986ae",
+      "changed": true
+    },
+    {
+      "path": "awdl/tests/frame_fixup_test.c",
+      "original_sha256": "8954c58344276e3b4aa276de8fb88fa04f8de6e27b21524cd46bf6f93e331a76",
+      "public_sha256": "8954c58344276e3b4aa276de8fb88fa04f8de6e27b21524cd46bf6f93e331a76",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/host_frame_test.c",
+      "original_sha256": "39157e3d12a7194cf242004f7affbdf831ba083e125ecd61a502e898cf23c202",
+      "public_sha256": "39157e3d12a7194cf242004f7affbdf831ba083e125ecd61a502e898cf23c202",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/intersect_test.c",
+      "original_sha256": "7d100368c338a2bc358041aafb97421f85e7a32c3825e275a1e443c287adb843",
+      "public_sha256": "7d100368c338a2bc358041aafb97421f85e7a32c3825e275a1e443c287adb843",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/multicast_timing_test.c",
+      "original_sha256": "99b7c0ab55b1dcf7af68da7a09286940ce477cb1b327b04e7a685b5ffbe6ff6e",
+      "public_sha256": "99b7c0ab55b1dcf7af68da7a09286940ce477cb1b327b04e7a685b5ffbe6ff6e",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/posix_win_test.c",
+      "original_sha256": "ce0504785f76f17912d334a790b8b37612944548f413143ec4e3c78cf58acdc6",
+      "public_sha256": "ce0504785f76f17912d334a790b8b37612944548f413143ec4e3c78cf58acdc6",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/redact_test.c",
+      "original_sha256": "e2a491f8b2b5bfba534f4bfe87c81fc8a8bd2933fd180e8b53fc9adb3a50b9e7",
+      "public_sha256": "e2a491f8b2b5bfba534f4bfe87c81fc8a8bd2933fd180e8b53fc9adb3a50b9e7",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/service_bridge_test.c",
+      "original_sha256": "21d481e07f09eda12939d58a6166f4400996e915b19c066f3d94f805b8a9e11e",
+      "public_sha256": "21d481e07f09eda12939d58a6166f4400996e915b19c066f3d94f805b8a9e11e",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/slot_policy_test.c",
+      "original_sha256": "0e386bfd59be9dd0e2583dab26bc0ca1e8478805ce2e03f2d8e2f5a01a51ea3b",
+      "public_sha256": "0e386bfd59be9dd0e2583dab26bc0ca1e8478805ce2e03f2d8e2f5a01a51ea3b",
+      "changed": false
+    },
+    {
+      "path": "awdl/tests/tcp_merge_test.c",
+      "original_sha256": "4c0fbcfde16291e6e004637cc6e269e0d4cf510724aed08af379ed8449c08d30",
+      "public_sha256": "4c0fbcfde16291e6e004637cc6e269e0d4cf510724aed08af379ed8449c08d30",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/ev_win.c",
+      "original_sha256": "319eb4f037e6b99994b1b55213f845b8fb7cb6019dafd1f28cef5fc2e02a7ed7",
+      "public_sha256": "319eb4f037e6b99994b1b55213f845b8fb7cb6019dafd1f28cef5fc2e02a7ed7",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/frame_fixup.c",
+      "original_sha256": "8caf34ddb543e1cd151400863f1e58d355b0a4d0ed2c883aadf732a1e8575300",
+      "public_sha256": "8caf34ddb543e1cd151400863f1e58d355b0a4d0ed2c883aadf732a1e8575300",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/frame_fixup.h",
+      "original_sha256": "aebabb792364b15fdd27a152ac0ccaec5cef49df3f716184dad22fcc165180bf",
+      "public_sha256": "aebabb792364b15fdd27a152ac0ccaec5cef49df3f716184dad22fcc165180bf",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/host_frame.c",
+      "original_sha256": "a65c651160f80677644aaa86d1c7c13d64bde2396fd1fe009cce593517fa3733",
+      "public_sha256": "a65c651160f80677644aaa86d1c7c13d64bde2396fd1fe009cce593517fa3733",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/host_frame.h",
+      "original_sha256": "041069ec1ca098e9a161d06ba1601dd546b9ae78848274b9af2593daf910fb7d",
+      "public_sha256": "041069ec1ca098e9a161d06ba1601dd546b9ae78848274b9af2593daf910fb7d",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/host_if.c",
+      "original_sha256": "7f9a8f7be67f329c1f8d2f7dbf11323926747a8a4f146b2eb4e0493b582dfefa",
+      "public_sha256": "7f9a8f7be67f329c1f8d2f7dbf11323926747a8a4f146b2eb4e0493b582dfefa",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/host_if.h",
+      "original_sha256": "e901dd4ff05144141f7e9c97d58bd322dd4b517960d4693381cce4c387d0f75d",
+      "public_sha256": "e901dd4ff05144141f7e9c97d58bd322dd4b517960d4693381cce4c387d0f75d",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/io_win.c",
+      "original_sha256": "15ef4156491287c10947f86237ba6537fe6a5ed2a1044df7837a41b1dd7bd88c",
+      "public_sha256": "15ef4156491287c10947f86237ba6537fe6a5ed2a1044df7837a41b1dd7bd88c",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/main.c",
+      "original_sha256": "3cf84cdcd44b16c9cb4772b6f1c370fec736209fb13d4906d4820485e0ec6969",
+      "public_sha256": "3cf84cdcd44b16c9cb4772b6f1c370fec736209fb13d4906d4820485e0ec6969",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/netutils_win.c",
+      "original_sha256": "161eb52005201cda640fbdeca4ce57d3f4f8ef2d95aa60ff27abc146442ad58f",
+      "public_sha256": "161eb52005201cda640fbdeca4ce57d3f4f8ef2d95aa60ff27abc146442ad58f",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/posix_win.c",
+      "original_sha256": "a4656a81baa5779b4829af4819e27d7a58af400670a3464f1ea8a6fc4cf406b2",
+      "public_sha256": "a4656a81baa5779b4829af4819e27d7a58af400670a3464f1ea8a6fc4cf406b2",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/posix_win.h",
+      "original_sha256": "86de8bc5472b72e53083e01aa876d9af0ba590116a2761b18c605e7470821780",
+      "public_sha256": "86de8bc5472b72e53083e01aa876d9af0ba590116a2761b18c605e7470821780",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/radio_client.c",
+      "original_sha256": "e82f7aff76aa16269a4098ab9ceb5e5b1aa4b74c65e7b6a06b43e3d2be9d27ca",
+      "public_sha256": "e82f7aff76aa16269a4098ab9ceb5e5b1aa4b74c65e7b6a06b43e3d2be9d27ca",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/radio_client.h",
+      "original_sha256": "c42ef2850ebaeed2827a499664b9dad3bb47636980b09bcf968d93f20c68c79f",
+      "public_sha256": "c42ef2850ebaeed2827a499664b9dad3bb47636980b09bcf968d93f20c68c79f",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/redact.c",
+      "original_sha256": "aca1dd3c79d4ea642febd10e26ddd7a99c6886fb71154b7eaf143d0f4c73db27",
+      "public_sha256": "aca1dd3c79d4ea642febd10e26ddd7a99c6886fb71154b7eaf143d0f4c73db27",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/redact.h",
+      "original_sha256": "2e94fc21aba8f7de3f49d61518bae4445e5a761b6a6418c48959908100aa6c73",
+      "public_sha256": "2e94fc21aba8f7de3f49d61518bae4445e5a761b6a6418c48959908100aa6c73",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/service_bridge.c",
+      "original_sha256": "dc0043925b0d98043815dd302216ad2763732b36f0102c5b56c02052f5ba0540",
+      "public_sha256": "dc0043925b0d98043815dd302216ad2763732b36f0102c5b56c02052f5ba0540",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/service_bridge.h",
+      "original_sha256": "58f170590db5b9300d526dbbb3f944d4d559c9717e0b680a17a533ce46fed372",
+      "public_sha256": "58f170590db5b9300d526dbbb3f944d4d559c9717e0b680a17a533ce46fed372",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/slot_policy.c",
+      "original_sha256": "a1db69046a6da6155379f919e8d12d3026d3c671db8bfe73d38cc96c47085ec5",
+      "public_sha256": "a1db69046a6da6155379f919e8d12d3026d3c671db8bfe73d38cc96c47085ec5",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/slot_policy.h",
+      "original_sha256": "4808ce8f161cf5321b4ad36bad3e83ccf08b03559854575e2fbbcc25a26564ce",
+      "public_sha256": "4808ce8f161cf5321b4ad36bad3e83ccf08b03559854575e2fbbcc25a26564ce",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/tcp_merge.c",
+      "original_sha256": "7504611b364b56c839b8d9f3340e22a6084c06e01b38f0aad7e6720069662e84",
+      "public_sha256": "7504611b364b56c839b8d9f3340e22a6084c06e01b38f0aad7e6720069662e84",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/tcp_merge.h",
+      "original_sha256": "5fc72cf74f68c50d4120c2eb313da6b1198739adefcac67583d35ef6ab380d18",
+      "public_sha256": "5fc72cf74f68c50d4120c2eb313da6b1198739adefcac67583d35ef6ab380d18",
+      "changed": false
+    },
+    {
+      "path": "awdl/win/win_internal.h",
+      "original_sha256": "8627f9e871ab4140fea82f9f873a6026f19806566141138819b112916f758e71",
+      "public_sha256": "8627f9e871ab4140fea82f9f873a6026f19806566141138819b112916f758e71",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/LICENSE",
+      "original_sha256": "69aee9f827e918b42af8f278ec78aa3e78bfd334bab894f1623b9b1c321b671e",
+      "public_sha256": "69aee9f827e918b42af8f278ec78aa3e78bfd334bab894f1623b9b1c321b671e",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/SOURCES.md",
+      "original_sha256": "bbf4b974c31e86d15c6510ee1ba581114528681d22aa33b52b603fdadf8c4dbb",
+      "public_sha256": "b6f13b13519a69a66cfb5f307e44b023dbfade42121d0c9d31aca0c40e1ba867",
+      "changed": true
+    },
+    {
+      "path": "driver/mt7925/build_driver.py",
+      "original_sha256": "687969c4131335229ded8c8d48d6c456c0c2608de48ee146cb1d7f77bb0eae33",
+      "public_sha256": "687969c4131335229ded8c8d48d6c456c0c2608de48ee146cb1d7f77bb0eae33",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/channel_control.c",
+      "original_sha256": "e893d2e1f0eaca8c602a2f48449a060bba96f95dc9ceb5c4a1cc6605f4f62651",
+      "public_sha256": "e893d2e1f0eaca8c602a2f48449a060bba96f95dc9ceb5c4a1cc6605f4f62651",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/channel_control.h",
+      "original_sha256": "b84da6dfc7b3ce377102932f6327eb98eaa74aa780a4db72ba02be1df573af0f",
+      "public_sha256": "b84da6dfc7b3ce377102932f6327eb98eaa74aa780a4db72ba02be1df573af0f",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/chip_control.c",
+      "original_sha256": "defdf17dd67e51236e72dcfb6b44b9be117d60492a12b71116ac2766bb494de7",
+      "public_sha256": "defdf17dd67e51236e72dcfb6b44b9be117d60492a12b71116ac2766bb494de7",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/chip_control.h",
+      "original_sha256": "d8f6d168c3dfc5bf87eb22c0e8622f877d2f231619c25e8cd0bc3452a4109dac",
+      "public_sha256": "d8f6d168c3dfc5bf87eb22c0e8622f877d2f231619c25e8cd0bc3452a4109dac",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/clc_power.c",
+      "original_sha256": "4723e5eb8028073b1b03a03234e77de70cb28a1a833999dade97134c7ea90d66",
+      "public_sha256": "4723e5eb8028073b1b03a03234e77de70cb28a1a833999dade97134c7ea90d66",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/clc_power.h",
+      "original_sha256": "f1b863e04eefe223cf7b7c8190444725a7f8456acba2865e339d34219b94c379",
+      "public_sha256": "f1b863e04eefe223cf7b7c8190444725a7f8456acba2865e339d34219b94c379",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/core.c",
+      "original_sha256": "2d37316a9ba8b3a7b8c149c867c20529cfa27a60eb61a11f9c43e7e046efdda0",
+      "public_sha256": "2d37316a9ba8b3a7b8c149c867c20529cfa27a60eb61a11f9c43e7e046efdda0",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/core.h",
+      "original_sha256": "2808bae338f7c38a84e7b525a71e8164d50936996f79f71386e3e861102d42b5",
+      "public_sha256": "2808bae338f7c38a84e7b525a71e8164d50936996f79f71386e3e861102d42b5",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/data_memory.h",
+      "original_sha256": "aba74c5a81d7349743e3fcabe38059122071bfec33e657265726353b452c6504",
+      "public_sha256": "aba74c5a81d7349743e3fcabe38059122071bfec33e657265726353b452c6504",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/device.c",
+      "original_sha256": "6747a41b27f984678294ec04031fac1238a2b3e153a7b61b0f993566671fe518",
+      "public_sha256": "6747a41b27f984678294ec04031fac1238a2b3e153a7b61b0f993566671fe518",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/device.h",
+      "original_sha256": "b270c18d074bb1719b60cf7fef2d1e3aaafb902faa17782dea6f0c4997890f87",
+      "public_sha256": "b270c18d074bb1719b60cf7fef2d1e3aaafb902faa17782dea6f0c4997890f87",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/diagnose.py",
+      "original_sha256": "841732eb6a9eb1f2404b8f6687960399d381f85a9168e4522a8f572be7425a0b",
+      "public_sha256": "841732eb6a9eb1f2404b8f6687960399d381f85a9168e4522a8f572be7425a0b",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/efuse_type.c",
+      "original_sha256": "1c464e20af0a3350fcabf5cdd2981cfe81f8993bdbdfd970cf24cb514f2dbe7a",
+      "public_sha256": "1c464e20af0a3350fcabf5cdd2981cfe81f8993bdbdfd970cf24cb514f2dbe7a",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/efuse_type.h",
+      "original_sha256": "236694521091851c0cee2bb64dbd6d79855cb1378e15fcc6af061b5df2b210b0",
+      "public_sha256": "236694521091851c0cee2bb64dbd6d79855cb1378e15fcc6af061b5df2b210b0",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/firmware.c",
+      "original_sha256": "c097d9a052dd54beb298d0de877af8efd414f961312c6d3d08968e9c1abfef56",
+      "public_sha256": "c097d9a052dd54beb298d0de877af8efd414f961312c6d3d08968e9c1abfef56",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/firmware.h",
+      "original_sha256": "c409dae29635ceb4bf5ce583727eba160ed85f2e137df3a28cb61023800e533f",
+      "public_sha256": "c409dae29635ceb4bf5ce583727eba160ed85f2e137df3a28cb61023800e533f",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/mac_init.c",
+      "original_sha256": "423c8664637086982a70ba7ab978fcc4984c1b6f1f2fe29435d27061b4715238",
+      "public_sha256": "423c8664637086982a70ba7ab978fcc4984c1b6f1f2fe29435d27061b4715238",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/mac_init.h",
+      "original_sha256": "73b77790c8640fa4ce96de68fd42e8fd810b598cd00515d6096e39ee6ca17367",
+      "public_sha256": "73b77790c8640fa4ce96de68fd42e8fd810b598cd00515d6096e39ee6ca17367",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/mcu_memory.h",
+      "original_sha256": "0cc53b2384a8660db898c182a96599956e135bdc2edc8a411cf7ee5eecc77644",
+      "public_sha256": "0cc53b2384a8660db898c182a96599956e135bdc2edc8a411cf7ee5eecc77644",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/mcu_runtime.c",
+      "original_sha256": "844fca620143068ec12fa938e00713a159e01bdf32fc024f8fa50b59c0098521",
+      "public_sha256": "844fca620143068ec12fa938e00713a159e01bdf32fc024f8fa50b59c0098521",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/mcu_runtime.h",
+      "original_sha256": "ef57042657462f0295faeb2934b33218d4206376b289835a797767b0196061ee",
+      "public_sha256": "ef57042657462f0295faeb2934b33218d4206376b289835a797767b0196061ee",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/mt7925_bringup.inf",
+      "original_sha256": "88c4519f5bbb3af683ae0e198a0e013db7831755473581ceffd85d125103564c",
+      "public_sha256": "88c4519f5bbb3af683ae0e198a0e013db7831755473581ceffd85d125103564c",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/nic_caps.c",
+      "original_sha256": "31ab37440742c331318828c6218bb8924310fdee68eda3adcf840e4bbd7d2aca",
+      "public_sha256": "31ab37440742c331318828c6218bb8924310fdee68eda3adcf840e4bbd7d2aca",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/nic_caps.h",
+      "original_sha256": "b2985f8e330d15d69238ee1e1df9586ebed722edea93578a2f24ac7e3f85ff98",
+      "public_sha256": "b2985f8e330d15d69238ee1e1df9586ebed722edea93578a2f24ac7e3f85ff98",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/pcie_mcu.c",
+      "original_sha256": "7bd22b63b455539a2cafb5774125376d45440d89658cdab255bee90c5860cad0",
+      "public_sha256": "7bd22b63b455539a2cafb5774125376d45440d89658cdab255bee90c5860cad0",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/pcie_mcu.h",
+      "original_sha256": "b2fbb215b382bb08a8bbac6c99077b0454d1f617d279a5bca19a1ca3f78d8027",
+      "public_sha256": "b2fbb215b382bb08a8bbac6c99077b0454d1f617d279a5bca19a1ca3f78d8027",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/platform_acpi.c",
+      "original_sha256": "d96015df67b6ba807c99aa71f19dde8bbf4c73fa1f085a1a4730e3a1cafa4148",
+      "public_sha256": "d96015df67b6ba807c99aa71f19dde8bbf4c73fa1f085a1a4730e3a1cafa4148",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/platform_acpi.h",
+      "original_sha256": "fd685c4200f304897c77c2f17d3f870dbc81508ba86247d9cec37ba9f08f5212",
+      "public_sha256": "fd685c4200f304897c77c2f17d3f870dbc81508ba86247d9cec37ba9f08f5212",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/radio_device.c",
+      "original_sha256": "38fcb0484bdbee195709ba786707c8adaaa145a35ccf878bf96b51f1357dd226",
+      "public_sha256": "38fcb0484bdbee195709ba786707c8adaaa145a35ccf878bf96b51f1357dd226",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/radio_device.h",
+      "original_sha256": "6025d7edc03416b198311b791d11fa371bd2e343a28fce08d20587d37be17872",
+      "public_sha256": "6025d7edc03416b198311b791d11fa371bd2e343a28fce08d20587d37be17872",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/radio_session.c",
+      "original_sha256": "1a68083c966d9a0ed905e4427ee3632c638a14358293909b227e0236ca08b6fa",
+      "public_sha256": "1a68083c966d9a0ed905e4427ee3632c638a14358293909b227e0236ca08b6fa",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/radio_session.h",
+      "original_sha256": "7b09fb0eea1debec3730652fb1c1dbe6296ba49ddc5e65206ad4911cb6c9863f",
+      "public_sha256": "7b09fb0eea1debec3730652fb1c1dbe6296ba49ddc5e65206ad4911cb6c9863f",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/raw_rx.c",
+      "original_sha256": "1aa8df4efe0ada30e55fc564a37e42837d0387e449b99e68b0e616413d0b6af8",
+      "public_sha256": "1aa8df4efe0ada30e55fc564a37e42837d0387e449b99e68b0e616413d0b6af8",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/raw_rx.h",
+      "original_sha256": "576c9b8d18d34e9f5e838238beba2715a26762ba122d578315774ea794894825",
+      "public_sha256": "576c9b8d18d34e9f5e838238beba2715a26762ba122d578315774ea794894825",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/raw_tx.c",
+      "original_sha256": "af7a511dbee2833a394680d515f6365bffcdd9e5a04c3170c10f4ede292087d2",
+      "public_sha256": "af7a511dbee2833a394680d515f6365bffcdd9e5a04c3170c10f4ede292087d2",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/raw_tx.h",
+      "original_sha256": "389b57bb193debcc6394ddf6e7bb828ebefbb414554f9b9dc76001057571029b",
+      "public_sha256": "389b57bb193debcc6394ddf6e7bb828ebefbb414554f9b9dc76001057571029b",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/regulatory.c",
+      "original_sha256": "28e182acc621e3322a3c71bcd2aa245f50fc3e096ea38d53f923040c41faba40",
+      "public_sha256": "28e182acc621e3322a3c71bcd2aa245f50fc3e096ea38d53f923040c41faba40",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/regulatory.h",
+      "original_sha256": "2b6d8cbd2cbdb7639548c429d9605a2a6db9dcdaaea6e8b45c062a591deea7b7",
+      "public_sha256": "2b6d8cbd2cbdb7639548c429d9605a2a6db9dcdaaea6e8b45c062a591deea7b7",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/rx_ring.c",
+      "original_sha256": "c149f8f8586d6b1ad2f28a46ae6a215304aff9574bdebedc13d5e2f44ff43b34",
+      "public_sha256": "c149f8f8586d6b1ad2f28a46ae6a215304aff9574bdebedc13d5e2f44ff43b34",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/rx_ring.h",
+      "original_sha256": "709aa836b58384f535c1aded32e687d1c1875ad36e245fa1e225042e25d9c19e",
+      "public_sha256": "709aa836b58384f535c1aded32e687d1c1875ad36e245fa1e225042e25d9c19e",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/tx_init.c",
+      "original_sha256": "4a9b7f1116a2ccc0c9a689d4ba8a8cfb8187c1709b074ccdf105b5c73736dce4",
+      "public_sha256": "4a9b7f1116a2ccc0c9a689d4ba8a8cfb8187c1709b074ccdf105b5c73736dce4",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/tx_init.h",
+      "original_sha256": "6326c1d92425f6cd6515e1faa272a58ec133f49c49ff39acf2af0cf35d5db09a",
+      "public_sha256": "6326c1d92425f6cd6515e1faa272a58ec133f49c49ff39acf2af0cf35d5db09a",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/tx_power.c",
+      "original_sha256": "586118e85d64e2babf824d9879c4bcbf264b424bcbdd8ca2cf3a5f9bf23790ad",
+      "public_sha256": "586118e85d64e2babf824d9879c4bcbf264b424bcbdd8ca2cf3a5f9bf23790ad",
+      "changed": false
+    },
+    {
+      "path": "driver/mt7925/tx_power.h",
+      "original_sha256": "3ec6c5d3ff6bbbc9092f17267388e55ef17504180cff5d6bb63f2578477349f6",
+      "public_sha256": "3ec6c5d3ff6bbbc9092f17267388e55ef17504180cff5d6bb63f2578477349f6",
+      "changed": false
+    },
+    {
+      "path": "radio/CMakeLists.txt",
+      "original_sha256": "cde4b575c8c64d1416da49b70dde4f0ccca8ad9137788a06a63cdc129e49f297",
+      "public_sha256": "cde4b575c8c64d1416da49b70dde4f0ccca8ad9137788a06a63cdc129e49f297",
+      "changed": false
+    },
+    {
+      "path": "radio/LICENSE",
+      "original_sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "public_sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "changed": false
+    },
+    {
+      "path": "radio/build_mt7925.py",
+      "original_sha256": "352aca6c5e7921bc1a8a69d03952662682b6676feff5a0c890bb5af427a0a90c",
+      "public_sha256": "fbfc9dc79685ea72a4ad496e945aeb549a33334ffe3436a3b9c5e5c76500783c",
+      "changed": true
+    },
+    {
+      "path": "radio/frame_capture.h",
+      "original_sha256": "136eabb2270b7af3291e8cbd6628f073c5b7db1de7ed267dc26e340098a8c7e9",
+      "public_sha256": "136eabb2270b7af3291e8cbd6628f073c5b7db1de7ed267dc26e340098a8c7e9",
+      "changed": false
+    },
+    {
+      "path": "radio/mt7925_bridge.h",
+      "original_sha256": "2c6303a3ee873550a526d3966dd48e4270802e2aff7ecf64c728c1a8d65a2486",
+      "public_sha256": "2c6303a3ee873550a526d3966dd48e4270802e2aff7ecf64c728c1a8d65a2486",
+      "changed": false
+    },
+    {
+      "path": "radio/mt7925_codec.h",
+      "original_sha256": "f9e1c45922801b59e626a533f52db8a34df18572ec00857f3017c684ad8d52f3",
+      "public_sha256": "f9e1c45922801b59e626a533f52db8a34df18572ec00857f3017c684ad8d52f3",
+      "changed": false
+    },
+    {
+      "path": "radio/mt7925_device.h",
+      "original_sha256": "14210f50e41d583d09d461e3cac7c2364815db4b62f4b538d6508790cd1b370b",
+      "public_sha256": "14210f50e41d583d09d461e3cac7c2364815db4b62f4b538d6508790cd1b370b",
+      "changed": false
+    },
+    {
+      "path": "radio/mt7925_rx_diagnostics.h",
+      "original_sha256": "10e5f53fac0818892f762e7b8c948b4b10695b36c1c9163db622039942191182",
+      "public_sha256": "10e5f53fac0818892f762e7b8c948b4b10695b36c1c9163db622039942191182",
+      "changed": false
+    },
+    {
+      "path": "radio/mt7925_shutdown.h",
+      "original_sha256": "d04ea52fdb64fa0af9720bfec412ff1eb94b3b8800dcfc05fb5299f72b2330ae",
+      "public_sha256": "d04ea52fdb64fa0af9720bfec412ff1eb94b3b8800dcfc05fb5299f72b2330ae",
+      "changed": false
+    },
+    {
+      "path": "radio/mt7925_txpower.h",
+      "original_sha256": "852a388808756bc3c0a43304ca7995c9f8461ba4a524eee62c439759b4ea98d5",
+      "public_sha256": "852a388808756bc3c0a43304ca7995c9f8461ba4a524eee62c439759b4ea98d5",
+      "changed": false
+    },
+    {
+      "path": "radio/mt7925_txs.h",
+      "original_sha256": "9afcb6398c0a618c87f12ca62148cc64ab358bf84d52e96a856cf33fc5b97dfc",
+      "public_sha256": "9afcb6398c0a618c87f12ca62148cc64ab358bf84d52e96a856cf33fc5b97dfc",
+      "changed": false
+    },
+    {
+      "path": "radio/pipe_server.h",
+      "original_sha256": "d599bf4091815247932711765be8330380eb64bfc9beda664f01d017bb7e63b5",
+      "public_sha256": "d599bf4091815247932711765be8330380eb64bfc9beda664f01d017bb7e63b5",
+      "changed": false
+    },
+    {
+      "path": "radio/radio_link.h",
+      "original_sha256": "0d4d5367e4f0a853a013ba3aaa8ba244c0e92eaa76b2dd9de6ea8478c250bddf",
+      "public_sha256": "0d4d5367e4f0a853a013ba3aaa8ba244c0e92eaa76b2dd9de6ea8478c250bddf",
+      "changed": false
+    },
+    {
+      "path": "radio/tests/frame_capture_test.cpp",
+      "original_sha256": "b3eaea012d5fce77f37c45749ee305b4af3a3769c47107d1bbaf0f45c8da86f6",
+      "public_sha256": "b3eaea012d5fce77f37c45749ee305b4af3a3769c47107d1bbaf0f45c8da86f6",
+      "changed": false
+    },
+    {
+      "path": "radio/tests/mt7925_bridge_test.cpp",
+      "original_sha256": "7c7ba9c6bce34e10cca059e6ed7b2640e0938730a1b9653729f37def6e48c9cb",
+      "public_sha256": "7c7ba9c6bce34e10cca059e6ed7b2640e0938730a1b9653729f37def6e48c9cb",
+      "changed": false
+    },
+    {
+      "path": "radio/tests/mt7925_txpower_test.cpp",
+      "original_sha256": "e7c951f05c6c831576dfa83500b90f3c01edfe2ea09d51ff1bf68e80528bd958",
+      "public_sha256": "e7c951f05c6c831576dfa83500b90f3c01edfe2ea09d51ff1bf68e80528bd958",
+      "changed": false
+    },
+    {
+      "path": "radio/tests/mt7925_txs_test.cpp",
+      "original_sha256": "e7e822dfa0c5d86b1c74ac8018bee3f57074b0abac799d47a10b07acaabddbdf",
+      "public_sha256": "e7e822dfa0c5d86b1c74ac8018bee3f57074b0abac799d47a10b07acaabddbdf",
+      "changed": false
+    },
+    {
+      "path": "radio/tests/pipe_server_test.cpp",
+      "original_sha256": "1eb5c62f159c54271dfefcfdea43e08dab9c2442f36613f535d9bb3e0e1a25ef",
+      "public_sha256": "1eb5c62f159c54271dfefcfdea43e08dab9c2442f36613f535d9bb3e0e1a25ef",
+      "changed": false
+    },
+    {
+      "path": "radio/winawdl_mt7925.cpp",
+      "original_sha256": "a9416df196560a6d4a21998e6feda73f8edfb32d2d601819491c12593c69448f",
+      "public_sha256": "a9416df196560a6d4a21998e6feda73f8edfb32d2d601819491c12593c69448f",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/COPYING",
+      "original_sha256": "230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809",
+      "public_sha256": "230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/core.c",
+      "original_sha256": "fca7ca22f96e7c020564513771ad578bbb692267a261c8880d31729c070d2b17",
+      "public_sha256": "fca7ca22f96e7c020564513771ad578bbb692267a261c8880d31729c070d2b17",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/core.h",
+      "original_sha256": "c2d77518b6aee6f8283062750c78e4480091a76e19cf00c7523dc86aaa89e984",
+      "public_sha256": "c2d77518b6aee6f8283062750c78e4480091a76e19cf00c7523dc86aaa89e984",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/corewlan.h",
+      "original_sha256": "979e16934edaa93d2f372f800fd000edd29e1d21f1dbbd1372eba23d48716213",
+      "public_sha256": "979e16934edaa93d2f372f800fd000edd29e1d21f1dbbd1372eba23d48716213",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/io.c",
+      "original_sha256": "2f13917569cb72c9ab5f18194d54c93684dbef9af23d58dc781eb8416a9df978",
+      "public_sha256": "2f13917569cb72c9ab5f18194d54c93684dbef9af23d58dc781eb8416a9df978",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/io.h",
+      "original_sha256": "02a8f199f693cc1fe297c930c5296fd8e45e5cbb2b5383ba95071666053c5dd6",
+      "public_sha256": "02a8f199f693cc1fe297c930c5296fd8e45e5cbb2b5383ba95071666053c5dd6",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/netutils.c",
+      "original_sha256": "7539e7ab9dbe6d731ebed57b76e9016f9e20e6660a708a60a10b71437671cea1",
+      "public_sha256": "7539e7ab9dbe6d731ebed57b76e9016f9e20e6660a708a60a10b71437671cea1",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/netutils.h",
+      "original_sha256": "6d9570e951d9ebddb54f5a2c8ab95665109211aa7d92916bf27eb02de218a5d1",
+      "public_sha256": "6d9570e951d9ebddb54f5a2c8ab95665109211aa7d92916bf27eb02de218a5d1",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/daemon/owl.c",
+      "original_sha256": "69b495bd1ff2dc7f15135f27662dd86b82182cef4634aa45844662c7027e60a8",
+      "public_sha256": "69b495bd1ff2dc7f15135f27662dd86b82182cef4634aa45844662c7027e60a8",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/radiotap/COPYING",
+      "original_sha256": "3e461387047002242a301effb46190afd4ed1b0a1026bc7bf8f9839144c5d5f7",
+      "public_sha256": "3e461387047002242a301effb46190afd4ed1b0a1026bc7bf8f9839144c5d5f7",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/radiotap/parse.c",
+      "original_sha256": "779535626f9ae698f91db75d2268d3d7fab1451a04b4a1edab02dabd8cddc032",
+      "public_sha256": "779535626f9ae698f91db75d2268d3d7fab1451a04b4a1edab02dabd8cddc032",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/radiotap/platform.h",
+      "original_sha256": "d13dd3d9e3c6a80b74f4ae57ee5b6e79f8ea3dd8068170263382a731a760cc2f",
+      "public_sha256": "d13dd3d9e3c6a80b74f4ae57ee5b6e79f8ea3dd8068170263382a731a760cc2f",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/radiotap/radiotap.c",
+      "original_sha256": "450a759bb3df21e3d9fe9aead9baf9ffb67490f4fa6513cff3eb6e279a294ee3",
+      "public_sha256": "450a759bb3df21e3d9fe9aead9baf9ffb67490f4fa6513cff3eb6e279a294ee3",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/radiotap/radiotap.h",
+      "original_sha256": "58a71a98a4780485fea2be96bf711788b2fb13664e0633efcc52626e8b381b8c",
+      "public_sha256": "58a71a98a4780485fea2be96bf711788b2fb13664e0633efcc52626e8b381b8c",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/radiotap/radiotap_iter.h",
+      "original_sha256": "63dc5410ec6ce1ac5884e6da736b378c53b2c43734796969fe84938ab0a29c66",
+      "public_sha256": "63dc5410ec6ce1ac5884e6da736b378c53b2c43734796969fe84938ab0a29c66",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/channel.c",
+      "original_sha256": "2d5c80e4d289a8be7ba7264880b4fcc2a7e6e24255400d6f99a93b178f505a74",
+      "public_sha256": "2d5c80e4d289a8be7ba7264880b4fcc2a7e6e24255400d6f99a93b178f505a74",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/channel.h",
+      "original_sha256": "07f73acf6b42d361d8ce58c5be23e49df210644d886400862bb8a2678e82768b",
+      "public_sha256": "07f73acf6b42d361d8ce58c5be23e49df210644d886400862bb8a2678e82768b",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/circular_buffer.c",
+      "original_sha256": "2e68504428e485b2638f40416c74bd83c03746c7e245b112992cebd7c16be22b",
+      "public_sha256": "2e68504428e485b2638f40416c74bd83c03746c7e245b112992cebd7c16be22b",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/circular_buffer.h",
+      "original_sha256": "fe5375ea178eca8b2baca79df2e918d44103b34cf93e143acf75b3bfa50e2903",
+      "public_sha256": "fe5375ea178eca8b2baca79df2e918d44103b34cf93e143acf75b3bfa50e2903",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/crc32.c",
+      "original_sha256": "acb30c45ba09b7f8a7bd9c4b30f4d0f5603e89d563736bed1894429ce54507ea",
+      "public_sha256": "acb30c45ba09b7f8a7bd9c4b30f4d0f5603e89d563736bed1894429ce54507ea",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/crc32.h",
+      "original_sha256": "5d0d747ddf3480e56d9a0987a84747939f6cabe9f1bfae272ec17c0f6d39c6df",
+      "public_sha256": "5d0d747ddf3480e56d9a0987a84747939f6cabe9f1bfae272ec17c0f6d39c6df",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/election.c",
+      "original_sha256": "b52b7dc796af8f0c955433722260a2bd28fe7e28217656cf517e5805e4066c2b",
+      "public_sha256": "b52b7dc796af8f0c955433722260a2bd28fe7e28217656cf517e5805e4066c2b",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/election.h",
+      "original_sha256": "321d5b3afadbc4924ea00e9e91597c655e46c850e68e8a055095103ec514659d",
+      "public_sha256": "321d5b3afadbc4924ea00e9e91597c655e46c850e68e8a055095103ec514659d",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/frame.c",
+      "original_sha256": "ce1a3e43ed7456412d69220dc4254d2f697c5b1ca4e6bc3b98ad1f53644ff360",
+      "public_sha256": "ce1a3e43ed7456412d69220dc4254d2f697c5b1ca4e6bc3b98ad1f53644ff360",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/frame.h",
+      "original_sha256": "6096b2669803043a8b88c2283998f2d5077fd91aa8dc08c69ce17141fcb160f8",
+      "public_sha256": "6096b2669803043a8b88c2283998f2d5077fd91aa8dc08c69ce17141fcb160f8",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/hashmap.c",
+      "original_sha256": "d0d4a83d62458d34ae7484cdaa1ed7142c6c68291447ab14db1b8260735a80bb",
+      "public_sha256": "d0d4a83d62458d34ae7484cdaa1ed7142c6c68291447ab14db1b8260735a80bb",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/hashmap.h",
+      "original_sha256": "5daae04c233c205be36acf44a6eb3f92f7af24b64e8f16e8439a361dff8d515a",
+      "public_sha256": "5daae04c233c205be36acf44a6eb3f92f7af24b64e8f16e8439a361dff8d515a",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/ieee80211.h",
+      "original_sha256": "fc00317ee4364f171b63cb043df053176562e945e4b36d2e9294aaa4c99950f9",
+      "public_sha256": "fc00317ee4364f171b63cb043df053176562e945e4b36d2e9294aaa4c99950f9",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/log.c",
+      "original_sha256": "6b46faaf3b16529155983f387bd631741dd69c8ccccdd86ad7f8d058c4ebdcd1",
+      "public_sha256": "6b46faaf3b16529155983f387bd631741dd69c8ccccdd86ad7f8d058c4ebdcd1",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/log.h",
+      "original_sha256": "3f436081a4b559b1e99ac07aca9eed2ee8627e74216b73573db2a7dd2151de96",
+      "public_sha256": "3f436081a4b559b1e99ac07aca9eed2ee8627e74216b73573db2a7dd2151de96",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/peers.c",
+      "original_sha256": "0869f8d9ea749835ed2e73603859b4a862a708db2892a0614b9ac535ff88aa58",
+      "public_sha256": "0869f8d9ea749835ed2e73603859b4a862a708db2892a0614b9ac535ff88aa58",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/peers.h",
+      "original_sha256": "b51fe4a60a45103c2f6dafe205b5e19ba1ca5fe2ceee431dbbb0d2f4739198b1",
+      "public_sha256": "b51fe4a60a45103c2f6dafe205b5e19ba1ca5fe2ceee431dbbb0d2f4739198b1",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/rx.c",
+      "original_sha256": "20b832c723ccef0016c1e4186f39f9ed97658a84a2fc873954eb74fee3117950",
+      "public_sha256": "20b832c723ccef0016c1e4186f39f9ed97658a84a2fc873954eb74fee3117950",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/rx.h",
+      "original_sha256": "c4acf885a5a21521ccd3be9f550834095c1e29fabc10789d9e5352301454beb2",
+      "public_sha256": "c4acf885a5a21521ccd3be9f550834095c1e29fabc10789d9e5352301454beb2",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/schedule.c",
+      "original_sha256": "f26b8a4adf38b998d5faf1f8eacc1df9f3914ac314069f45dceb4e5ae673b356",
+      "public_sha256": "f26b8a4adf38b998d5faf1f8eacc1df9f3914ac314069f45dceb4e5ae673b356",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/schedule.h",
+      "original_sha256": "c92a13e6a06c52fc38ed8559e3053ad0d6b02ed0cfa8561ae38ec22f15ea7925",
+      "public_sha256": "c92a13e6a06c52fc38ed8559e3053ad0d6b02ed0cfa8561ae38ec22f15ea7925",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/siphash24.c",
+      "original_sha256": "00616a45a874778a96aab2bc00af20e5275d9dbc29cb8574e9458f7968a9f0b8",
+      "public_sha256": "00616a45a874778a96aab2bc00af20e5275d9dbc29cb8574e9458f7968a9f0b8",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/siphash24.h",
+      "original_sha256": "535ea5038909165ddd98c7354e834b14b3021b62b9235f68603cdfa3cc11e34f",
+      "public_sha256": "535ea5038909165ddd98c7354e834b14b3021b62b9235f68603cdfa3cc11e34f",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/state.c",
+      "original_sha256": "43b09094dfb778edcc4a6917b8100fc765e62c54bb8d26ee9eeb625fd85f9275",
+      "public_sha256": "43b09094dfb778edcc4a6917b8100fc765e62c54bb8d26ee9eeb625fd85f9275",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/state.h",
+      "original_sha256": "c2a1efc50811ad2ae915ea4dfbfa61fb2310bf37cb7385a8a45dcede756ba884",
+      "public_sha256": "c2a1efc50811ad2ae915ea4dfbfa61fb2310bf37cb7385a8a45dcede756ba884",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/sync.c",
+      "original_sha256": "b3f7b61e228a1918a5653fdca6efc2cb665140cbef54baffb85816a7598eb20a",
+      "public_sha256": "b3f7b61e228a1918a5653fdca6efc2cb665140cbef54baffb85816a7598eb20a",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/sync.h",
+      "original_sha256": "0d43d281989ed8fa0d3efa1f44fa18ef3e66b6c34b3f6a91294e37e4f1b70927",
+      "public_sha256": "0d43d281989ed8fa0d3efa1f44fa18ef3e66b6c34b3f6a91294e37e4f1b70927",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/tx.c",
+      "original_sha256": "be5be114c70974b1bc70893c93bc876d780f488197efcaa71f6152b95bd81f33",
+      "public_sha256": "be5be114c70974b1bc70893c93bc876d780f488197efcaa71f6152b95bd81f33",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/tx.h",
+      "original_sha256": "36cda177596b30c6686b72d9ca839b7b599ee0e14f584f03d72c8eba8a8630fc",
+      "public_sha256": "36cda177596b30c6686b72d9ca839b7b599ee0e14f584f03d72c8eba8a8630fc",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/version.c",
+      "original_sha256": "16cc1248b17c758e267761b0400a8bc98b4547dc735c962f2ccc2806133d5b6f",
+      "public_sha256": "16cc1248b17c758e267761b0400a8bc98b4547dc735c962f2ccc2806133d5b6f",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/version.h",
+      "original_sha256": "f720f84da8ea7c959fa6098b8a0b807685c68a467d3c55a0b2718c1145eadf54",
+      "public_sha256": "f720f84da8ea7c959fa6098b8a0b807685c68a467d3c55a0b2718c1145eadf54",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/wire.c",
+      "original_sha256": "23cdff69475ed95b784983e82ae4b9c009912ee07fd92d38fc0ad4172148d475",
+      "public_sha256": "23cdff69475ed95b784983e82ae4b9c009912ee07fd92d38fc0ad4172148d475",
+      "changed": false
+    },
+    {
+      "path": "upstream/owl/src/wire.h",
+      "original_sha256": "5e10b48b639d07acc7f4e7b2a31cb90c843044d386e17681994fbb7c405e2ab8",
+      "public_sha256": "5e10b48b639d07acc7f4e7b2a31cb90c843044d386e17681994fbb7c405e2ab8",
+      "changed": false
+    }
+  ],
+  "product_name": "Airdrop for Windows",
+  "internal_identifier": "XiatiaoAirDrop",
+  "receiver_source_snapshot": {
+    "name": "airdrop-transfer-engine-r3",
+    "manifest_sha256": "55f632ff5b86e6b42ed67253722062e10f5a9d4679678637e98d450e3206814a",
+    "apple_send_acceptance": "PENDING"
+  },
+  "current_acceptance": {
+    "date": "2026-10-16",
+    "version": "0.2.0",
+    "source": "user_confirmation_and_runtime_log",
+    "scope": "本机单样例",
+    "hardware": "Dedicated MediaTek MT7925 PCIe",
+    "direction": "Windows -> iPhone",
+    "file_count": 1,
+    "file_kind": "image",
+    "result": "USER_CONFIRMED_SUCCESS",
+    "runtime_events": [
+      "accepted",
+      "sent"
+    ],
+    "previous_receive_acceptance": "iPhone -> Windows photo reception was separately confirmed earlier",
+    "all_apple_devices_verified": false,
+    "public_copy_built": false,
+    "cross_machine_verified": false,
+    "contacts_only_authentication_verified": false,
+    "history_note": "PENDING values in earlier change descriptions and the receiver snapshot record the pre-acceptance state; this object records the current local acceptance."
+  },
+  "desktop_source_update": {
+    "version": "0.2.3",
+    "author": "Dy1an-Zou",
+    "files": [
+      {
+        "path": "app/src/Xiatiao/AppChecks.cs",
+        "source_sha256": "9a7338d9ce7c3c4cf6fc3be40eaaba1b05066ead70a6e137619d4ee8a047cacd",
+        "public_sha256": "9a7338d9ce7c3c4cf6fc3be40eaaba1b05066ead70a6e137619d4ee8a047cacd"
+      },
+      {
+        "path": "app/src/Xiatiao/AppController.cs",
+        "source_sha256": "72c26fed86bdccbea5edf37c23686f1e6201ff9b50011032cbfde6af0a8e598b",
+        "public_sha256": "72c26fed86bdccbea5edf37c23686f1e6201ff9b50011032cbfde6af0a8e598b"
+      },
+      {
+        "path": "app/src/Xiatiao/FileMarqueeSelection.cs",
+        "source_sha256": "69e0216ba6549c7018103595a81da597706c7644e599afe0cec41bb5ecc13ac8",
+        "public_sha256": "69e0216ba6549c7018103595a81da597706c7644e599afe0cec41bb5ecc13ac8"
+      },
+      {
+        "path": "app/src/Xiatiao/LanguageChecks.cs",
+        "source_sha256": "854e242291d1bc7cb0ae1118072bffa0bffa7b9a282f8d83e8884ff424cc0da9",
+        "public_sha256": "854e242291d1bc7cb0ae1118072bffa0bffa7b9a282f8d83e8884ff424cc0da9"
+      },
+      {
+        "path": "app/src/Xiatiao/Localization.cs",
+        "source_sha256": "670afc1fe2c6799fd5764dc9c28af7b06109a1db07a74798667fd336c19052e2",
+        "public_sha256": "670afc1fe2c6799fd5764dc9c28af7b06109a1db07a74798667fd336c19052e2"
+      },
+      {
+        "path": "app/src/Xiatiao/Models.cs",
+        "source_sha256": "486b81da02be6426b19232fd5022016f1a92f5bb48769a960c61f7e2a1b868c8",
+        "public_sha256": "486b81da02be6426b19232fd5022016f1a92f5bb48769a960c61f7e2a1b868c8"
+      },
+      {
+        "path": "app/src/Xiatiao/Program.cs",
+        "source_sha256": "8a2f83a6996bf2fb83e4ec781004cee1a6970953046e57104e3044e6d802316e",
+        "public_sha256": "8a2f83a6996bf2fb83e4ec781004cee1a6970953046e57104e3044e6d802316e"
+      },
+      {
+        "path": "app/src/Xiatiao/RadioClient.cs",
+        "source_sha256": "04f4f7889997fe84d5def3d8d234654e14e0d169ff7c834ba4955bcaa018e82d",
+        "public_sha256": "04f4f7889997fe84d5def3d8d234654e14e0d169ff7c834ba4955bcaa018e82d"
+      },
+      {
+        "path": "app/src/Xiatiao/RadioHost.cs",
+        "source_sha256": "9464c96efb2de27e8ca11abcce1f07d564eca1deb566d9a0ed1c8cb3b14a58bd",
+        "public_sha256": "9464c96efb2de27e8ca11abcce1f07d564eca1deb566d9a0ed1c8cb3b14a58bd"
+      },
+      {
+        "path": "app/src/Xiatiao/ReceivedFileActions.cs",
+        "source_sha256": "ed16cfeea06707e6c979dc4eed85de1e603daf22e45c680b90f8124a68b655e5",
+        "public_sha256": "ed16cfeea06707e6c979dc4eed85de1e603daf22e45c680b90f8124a68b655e5"
+      },
+      {
+        "path": "app/src/Xiatiao/ReceiverProcess.cs",
+        "source_sha256": "ad6a2671348c053509403af96f0a0a268c5c38e9166f5fd8d0166b433553630f",
+        "public_sha256": "ad6a2671348c053509403af96f0a0a268c5c38e9166f5fd8d0166b433553630f"
+      },
+      {
+        "path": "app/src/Xiatiao/SenderController.cs",
+        "source_sha256": "c90354bd02f45b68e2a9f0224cf33e42a9b70ac923e4ffe569e63c233ea33a41",
+        "public_sha256": "c90354bd02f45b68e2a9f0224cf33e42a9b70ac923e4ffe569e63c233ea33a41"
+      },
+      {
+        "path": "app/src/Xiatiao/SendWindow.xaml.cs",
+        "source_sha256": "f84618d39d0d797e6163dfa2c24e20c46318fdffdca403b622f386ecf6d6e37b",
+        "public_sha256": "f84618d39d0d797e6163dfa2c24e20c46318fdffdca403b622f386ecf6d6e37b"
+      },
+      {
+        "path": "app/src/Xiatiao/SwitchChecks.cs",
+        "source_sha256": "edcee15718d5b7fc390695e74a3834be1d3c139438e37670df766731f75ca3f6",
+        "public_sha256": "edcee15718d5b7fc390695e74a3834be1d3c139438e37670df766731f75ca3f6"
+      },
+      {
+        "path": "app/src/Xiatiao/SwitchMotion.cs",
+        "source_sha256": "665226315e203f633c64bdc0d00ab7e6db28faf8d2cd478b9b50af88ba995e75",
+        "public_sha256": "665226315e203f633c64bdc0d00ab7e6db28faf8d2cd478b9b50af88ba995e75"
+      },
+      {
+        "path": "app/src/Xiatiao/UiChecks.cs",
+        "source_sha256": "b3b052be8cb90ecd5f0eccd5cef0f243ec10ea194ecc28900df8cfcef6c5a44d",
+        "public_sha256": "b3b052be8cb90ecd5f0eccd5cef0f243ec10ea194ecc28900df8cfcef6c5a44d"
+      },
+      {
+        "path": "app/src/Xiatiao/XiatiaoWindow.Files.cs",
+        "source_sha256": "a5fbef3a602beb88cdcbdd7c664fda5dd8089cc2685ffa8e1c099ff3270ab333",
+        "public_sha256": "a5fbef3a602beb88cdcbdd7c664fda5dd8089cc2685ffa8e1c099ff3270ab333"
+      },
+      {
+        "path": "app/src/Xiatiao/XiatiaoWindow.xaml.cs",
+        "source_sha256": "7670f28f2f3a84f749bcfd527668fbf332747ffacbc5ae3a3c35695b663824d8",
+        "public_sha256": "7670f28f2f3a84f749bcfd527668fbf332747ffacbc5ae3a3c35695b663824d8"
+      },
+      {
+        "path": "app/src/Xiatiao/SendWindow.xaml",
+        "source_sha256": "01522e46ecb4f98876dbd51ab80452a7c587f8f80e2c14a1efcb729da662841f",
+        "public_sha256": "01522e46ecb4f98876dbd51ab80452a7c587f8f80e2c14a1efcb729da662841f"
+      },
+      {
+        "path": "app/src/Xiatiao/UiStyles.xaml",
+        "source_sha256": "8f302c3bb33dbc95718e33d24e4180f1bb10609430a770d88e168064b8d10376",
+        "public_sha256": "8f302c3bb33dbc95718e33d24e4180f1bb10609430a770d88e168064b8d10376"
+      },
+      {
+        "path": "app/src/Xiatiao/XiatiaoWindow.xaml",
+        "source_sha256": "a83398738cb206b35afbf8ee0ff4b92e4c3a529527ce84b1dbdd8f088ff7cc77",
+        "public_sha256": "a83398738cb206b35afbf8ee0ff4b92e4c3a529527ce84b1dbdd8f088ff7cc77"
+      },
+      {
+        "path": "app/src/Xiatiao/Strings.Core.en.json",
+        "source_sha256": "bbf04afe614582dda6e2be3336181c7abdd595d912ad9f1c3fc881c7ffe28082",
+        "public_sha256": "bbf04afe614582dda6e2be3336181c7abdd595d912ad9f1c3fc881c7ffe28082"
+      },
+      {
+        "path": "app/src/Xiatiao/Strings.Ui.en.json",
+        "source_sha256": "61da858ac645b9378c08f803f981832b45025373e8117366c93f5d05407b9b15",
+        "public_sha256": "61da858ac645b9378c08f803f981832b45025373e8117366c93f5d05407b9b15"
+      },
+      {
+        "path": "app/XiatiaoAirDrop.csproj",
+        "source_sha256": "6c1b993fb60b042c1afdaf1ffd498b33ea60756906c23b43c5c38c08eac6d3c6",
+        "public_sha256": "6c1b993fb60b042c1afdaf1ffd498b33ea60756906c23b43c5c38c08eac6d3c6"
+      },
+      {
+        "path": "app/installer/BACKEND.md",
+        "source_sha256": "391e7f19ae1a52c13f7e0b12a279be5fb3f701abc3adb54a1178d50643b4fe25",
+        "public_sha256": "391e7f19ae1a52c13f7e0b12a279be5fb3f701abc3adb54a1178d50643b4fe25"
+      },
+      {
+        "path": "app/installer/check-backend-mutations.ps1",
+        "source_sha256": "8aa95ccdc96c93f64632dca056550aa0cfc6ebebd339129749b599553b9efabc",
+        "public_sha256": "8aa95ccdc96c93f64632dca056550aa0cfc6ebebd339129749b599553b9efabc"
+      },
+      {
+        "path": "app/installer/check-backend.ps1",
+        "source_sha256": "b4e2f2457d517958a57a1abbfa08f47ef4aa60e18a1a82d03a5e23ebde53d0ab",
+        "public_sha256": "b4e2f2457d517958a57a1abbfa08f47ef4aa60e18a1a82d03a5e23ebde53d0ab"
+      },
+      {
+        "path": "app/installer/README.md",
+        "source_sha256": "99f7478efa7db4f93344f3423923c57e1a3cee30d76f9bdbbfcc35b2176b3e44",
+        "public_sha256": "99f7478efa7db4f93344f3423923c57e1a3cee30d76f9bdbbfcc35b2176b3e44"
+      },
+      {
+        "path": "app/installer/setup-backend.ps1",
+        "source_sha256": "74cb435dbdbf8a446f4c94b075c58f76b2576e96e04546cf09427ab98a1ba1db",
+        "public_sha256": "74cb435dbdbf8a446f4c94b075c58f76b2576e96e04546cf09427ab98a1ba1db"
+      },
+      {
+        "path": "app/installer/Setup.cs",
+        "source_sha256": "28056d024f40584042a1b7734ec17bef05b3a04619ca9c0f46008c7c07655c6d",
+        "public_sha256": "28056d024f40584042a1b7734ec17bef05b3a04619ca9c0f46008c7c07655c6d"
+      },
+      {
+        "path": "app/installer/Setup.csproj",
+        "source_sha256": "02937503e9f13013f2b783d042561802d8162b6f9e7298433dfc91a563a0a0a9",
+        "public_sha256": "02937503e9f13013f2b783d042561802d8162b6f9e7298433dfc91a563a0a0a9"
+      },
+      {
+        "path": "app/installer/setup.manifest",
+        "source_sha256": "1478ea6ec395ee91b86a16cacecdc6759d72e4f3e40088bebbb19e9cb57ba541",
+        "public_sha256": "1478ea6ec395ee91b86a16cacecdc6759d72e4f3e40088bebbb19e9cb57ba541"
+      }
+    ],
+    "copied_utc": "2026-10-16T14:38:46.826722+00:00"
+  },
+  "release_payload": {
+    "version": "0.2.3",
+    "manifest_sha256": "0d64270845b33c202f1d3ad67d01e7ab5ebc395415c716057863769b6acd923f",
+    "public_native_source_archive_sha256": "c8e98d6825f8d453020840eeb3b898cc7e8af5f54fc01f71f82b78982d393ca8",
+    "private_example_names_removed": true,
+    "native_and_transfer_binaries_changed": false,
+    "installed": false,
+    "published": false
+  }
+}
