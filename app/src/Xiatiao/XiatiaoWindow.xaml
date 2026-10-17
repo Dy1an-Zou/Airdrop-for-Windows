@@ -135,7 +135,7 @@
                     <Button Grid.Column="1" Content="{local:Loc '打开文件夹'}" Command="{Binding OpenFolderCommand}" Style="{StaticResource QuietButton}"/>
                     <Button Grid.Column="2" Content="{local:Loc '发送文件'}" Click="SendClicked" Style="{StaticResource PrimaryButton}" Margin="7,0,0,0" AutomationProperties.Name="{local:Loc '发送文件到 Apple 设备'}"/>
                 </Grid>
-                <TextBlock x:Name="FileSelectionSummary" Grid.Row="1" Text="{local:Loc '拖动空白处框选 · 双击打开 · 右键操作'}" Style="{StaticResource SecondaryText}" Margin="1,0,8,11" TextWrapping="Wrap"/>
+                <TextBlock x:Name="FileSelectionSummary" Grid.Row="1" Text="{local:Loc '空白处框选 · 文件可拖出 · 拖入文件发送'}" Style="{StaticResource SecondaryText}" Margin="1,0,8,11" TextWrapping="Wrap"/>
                 <AdornerDecorator Grid.Row="2">
                 <ListBox x:Name="FileList" ItemsSource="{Binding Files}" SelectionMode="Extended" local:FileMarqueeSelection.Enabled="True"
                          Background="Transparent" BorderThickness="0" Padding="0,3,5,0"

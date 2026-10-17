@@ -52,7 +52,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <TextBlock Text="{local:Loc '选择照片或文件，可以一次发送多个。'}" VerticalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap">
+                    <TextBlock Text="{local:Loc '将文件拖到此窗口，或点击“选择文件”。'}" VerticalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap">
                         <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource SecondaryText}"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Files.Count}" Value="0"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
                     </TextBlock>
                 </Grid>

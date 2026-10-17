@@ -14,6 +14,7 @@ public partial class SendWindow : Window
         _sender = sender;
         InitializeComponent();
         DataContext = sender;
+        FileDropInput.Attach(this, sender);
         _sender.Files.CollectionChanged += FilesChanged;
         L.Changed += LanguageChanged;
         Closed += (_, _) =>

@@ -1,4 +1,7 @@
 {
+  "将文件拖到此窗口，或点击“选择文件”。": "Drop files into this window, or click Choose files.",
+  "空白处框选 · 文件可拖出 · 拖入文件发送": "Drag blank space to select · Drag files out · Drop files to send",
+  "已选择 {0} 个文件 · 可拖出或右键操作": "{0} files selected · Drag out or right-click for actions",
   "关于": "About",
   "AirDrop 开关": "AirDrop switch",
   "开启或关闭 AirDrop": "Turn AirDrop on or off",

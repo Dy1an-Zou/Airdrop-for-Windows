@@ -30,6 +30,7 @@ public sealed class SenderController : Observable
     private readonly Action<string, string> _notify;
     private ApplePeer? _selected;
     private string? _transferId;
+    private OutgoingFile[] _sendingFiles = Array.Empty<OutgoingFile>();
     private bool _wanted, _cancelRequested;
     private string _targetName = "";
     public ObservableCollection<OutgoingFile> Files { get; } = new();
@@ -89,6 +90,14 @@ public sealed class SenderController : Observable
         foreach (var file in added) Files.Add(file);
     }
 
+    internal bool TryAddFiles(IEnumerable<string> paths)
+    {
+        if (!CanEditFiles) return false;
+        var accepted = false;
+        Protect(() => { AddFiles(paths); accepted = true; });
+        return accepted;
+    }
+
     public void BeginLooking()
     {
         _wanted = true;
@@ -121,10 +130,11 @@ public sealed class SenderController : Observable
         if (!CanSend) return;
         foreach (var file in Files) if (!File.Exists(file.FullPath)) throw new IOException("文件已移动或删除：" + file.FileName);
         var id = Guid.NewGuid().ToString("N");
+        _sendingFiles = Files.ToArray();
         _targetName = SelectedPeer!.Name; _transferId = id; _cancelRequested = false; Progress = 0;
         SetStatus("正在连接「" + _targetName + "」", "正在发送接收请求…", true); NotifyTransfer();
-        try { _command(new { @do = "send", id, peer = SelectedPeer.Id, files = Files.Select(x => x.FullPath).ToArray() }); }
-        catch { _transferId = null; NotifyTransfer(); throw; }
+        try { _command(new { @do = "send", id, peer = SelectedPeer.Id, files = _sendingFiles.Select(x => x.FullPath).ToArray() }); }
+        catch { _transferId = null; _sendingFiles = Array.Empty<OutgoingFile>(); NotifyTransfer(); throw; }
     }
     private void Cancel()
     {
@@ -198,6 +208,10 @@ public sealed class SenderController : Observable
     private static double Number(JsonElement e, string key) => e.TryGetProperty(key, out var v) && v.ValueKind == JsonValueKind.Number && v.TryGetDouble(out var n) && double.IsFinite(n) ? n : 0;
     private void Finish(string status, string detail, bool success)
     {
+        // Remove only this acknowledged batch, while editing is still locked.
+        // An upload, cancellation or failed transfer must leave files available for retry.
+        if (success) foreach (var file in _sendingFiles) Files.Remove(file);
+        _sendingFiles = Array.Empty<OutgoingFile>();
         _transferId = null; _cancelRequested = false; SetStatus(status, detail, false); NotifyTransfer();
         if (success) _notify("文件已发送", detail);
     }
@@ -215,7 +229,7 @@ public sealed class SenderController : Observable
     private void Protect(Action action)
     {
         try { action(); }
-        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException or NotSupportedException or System.Security.SecurityException)
         { SetStatus("操作未完成", error.Message, false); }
     }
     internal void Preview()

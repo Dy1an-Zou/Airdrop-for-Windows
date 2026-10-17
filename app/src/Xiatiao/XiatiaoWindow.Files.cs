@@ -18,7 +18,7 @@ public partial class XiatiaoWindow
 {
     private bool _fileOperationBusy;
     private SendWindow? _sendWindow;
-    private string _fileSummaryTemplate = "拖动空白处框选 · 双击打开 · 右键操作";
+    private string _fileSummaryTemplate = "空白处框选 · 文件可拖出 · 拖入文件发送";
     private object[] _fileSummaryArguments = Array.Empty<object>();
 
     private void SetFileSummary(string template, params object[] arguments)
@@ -41,8 +41,8 @@ public partial class XiatiaoWindow
     {
         if (FileSelectionSummary is null || _fileOperationBusy) return;
         var count = FileList.SelectedItems.Count;
-        if (count > 0) SetFileSummary("已选择 {0} 个文件 · 右键操作", count);
-        else SetFileSummary("拖动空白处框选 · 双击打开 · 右键操作");
+        if (count > 0) SetFileSummary("已选择 {0} 个文件 · 可拖出或右键操作", count);
+        else SetFileSummary("空白处框选 · 文件可拖出 · 拖入文件发送");
     }
 
     private void FileRightButtonDown(object sender, MouseButtonEventArgs e)

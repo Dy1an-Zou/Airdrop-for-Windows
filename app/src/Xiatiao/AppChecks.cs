@@ -91,7 +91,9 @@ internal static class AppChecks
         if (!sender.IsSending || notifications.Count != 0) throw new Exception("上传完成被误当作接收完成");
         Event(new { @event = "send", id, state = "sent", done = 100, total = 100 });
         if (sender.IsSending || notifications.Count != 1) throw new Exception("确认完成后未正确结束发送");
+        if (sender.Files.Count != 0 || !File.Exists(first)) throw new Exception("确认完成后应清空待发送，并保留源文件");
         results.Add("sender requires selected discovered peer; ignores foreign events; upload is not completion");
+        sender.AddFiles(new[] { first });
         sender.SendCommand.Execute(null); id = commands.Last().GetProperty("id").GetString(); sender.CancelCommand.Execute(null);
         Event(new { @event = "send", id, state = "sending", done = 70, total = 100 });
         if (sender.StatusText != "正在取消") throw new Exception("迟到进度覆盖了取消意图");

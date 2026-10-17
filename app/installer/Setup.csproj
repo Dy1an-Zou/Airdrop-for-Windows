@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <AssemblyName>Airdrop-for-Windows-0.2.4-Setup-x64</AssemblyName>
+    <AssemblyName>Airdrop-for-Windows-0.2.5-Setup-x64</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <PlatformTarget>x64</PlatformTarget>
     <OutDir Condition="'$(OutDir)' == ''">..\..\build\installer\</OutDir>

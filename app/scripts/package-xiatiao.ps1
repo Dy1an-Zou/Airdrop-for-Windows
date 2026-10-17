@@ -112,7 +112,7 @@ foreach ($folder in @('airdrop', 'awdl', 'radio', 'driver', 'upstream', 'docs', 
     Copy-Tree (Join-Path $repoRoot $folder) (Join-Path $sourceRoot $folder)
 }
 $sourceApp = Join-Path $sourceRoot 'app'
-foreach ($folder in @('src', 'assets', 'licenses', 'scripts', 'design-sources', 'installer')) {
+foreach ($folder in @('src', 'assets', 'licenses', 'scripts', 'design-sources', 'installer', 'tests')) {
     Copy-Tree (Join-Path $appRoot $folder) (Join-Path $sourceApp $folder)
 }
 foreach ($name in @('XiatiaoAirDrop.csproj', 'XiatiaoAirDrop.sln', 'Directory.Build.props', 'NuGet.config', 'app.manifest')) {

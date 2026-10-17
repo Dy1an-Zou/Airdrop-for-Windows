@@ -19,12 +19,12 @@ using System.Windows.Forms;
 [assembly: AssemblyTitle("Airdrop for Windows Setup")]
 [assembly: AssemblyProduct("Airdrop for Windows")]
 [assembly: AssemblyCompany("Dy1an-Zou")]
-[assembly: AssemblyVersion("0.2.4.0")]
-[assembly: AssemblyFileVersion("0.2.4.0")]
+[assembly: AssemblyVersion("0.2.5.0")]
+[assembly: AssemblyFileVersion("0.2.5.0")]
 
 internal static class Setup
 {
-    internal const string Version = "0.2.4";
+    internal const string Version = "0.2.5";
     internal static readonly JavaScriptSerializer Json = new JavaScriptSerializer { MaxJsonLength = 8 * 1024 * 1024 };
     internal static readonly string SetupData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "AirdropForWindowsSetup");
     internal static string Self { get { return Assembly.GetExecutingAssembly().Location; } }
@@ -210,7 +210,7 @@ internal sealed class SetupForm : Form
         var logo = new PictureBox { Location = new Point(28, 30), Size = new Size(68, 68), SizeMode = PictureBoxSizeMode.Zoom };
         using (var stream = new MemoryStream(Setup.Resource("app.png"))) using (var original = Image.FromStream(stream)) logo.Image = new Bitmap(original);
         title.SetBounds(112, 32, 390, 36); title.Font = new Font("Segoe UI", 18, FontStyle.Bold); title.Text = "Airdrop for Windows";
-        author.SetBounds(113, 74, 350, 24); author.Text = "0.2.4  ·  Dy1an-Zou"; author.ForeColor = Color.FromArgb(80, 80, 72);
+        author.SetBounds(113, 74, 350, 24); author.Text = "0.2.5  ·  Dy1an-Zou"; author.ForeColor = Color.FromArgb(80, 80, 72);
         chinese.SetBounds(510, 40, 60, 30); chinese.Text = "中文"; chinese.AccessibleName = "简体中文";
         englishButton.SetBounds(578, 40, 72, 30); englishButton.Text = "English";
         foreach (var button in new[] { chinese, englishButton })

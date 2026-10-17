@@ -15,7 +15,7 @@ $script:resultPathApproved=$false
 
 # Called by the installer; never elevates, opens UI, starts the application,
 # installs a driver, changes security policy, or stops an application.
-$legacyManifests = @('234f8a9655769cc036ddec42493b5bc69dd8d41d06c5640f65bd0fe777d2b067','0d64270845b33c202f1d3ad67d01e7ab5ebc395415c716057863769b6acd923f')
+$legacyManifests = @('234f8a9655769cc036ddec42493b5bc69dd8d41d06c5640f65bd0fe777d2b067','0d64270845b33c202f1d3ad67d01e7ab5ebc395415c716057863769b6acd923f','3193d89574c1b266443e959960bc8e9c92deb6e4df8ac1562bb115cd2fe540bd','6fb4e7498fe97f182fe88684decca2e3b8e5d0395f07f97b21ac6a716f02cbec')
 $hardwareId = 'PCI\VEN_14C3&DEV_7925&SUBSYS_60001A3B&REV_00'
 $driverSha = '938148d69b14c911c18c4c7a9ef00703ad5625e46d876143b8f887df6762aafb'
 $programFiles = [IO.Path]::GetFullPath([Environment]::GetFolderPath('ProgramFiles')).TrimEnd('\')
@@ -385,7 +385,7 @@ function Read-SetupTree([string]$Root,[string]$ManifestSha,[string]$InstallerSha
     return [pscustomobject]@{Root=$Root;ManifestSha=$ManifestSha;InstallerSha=$InstallerSha;ReceiptSha=(Hash-Bytes $bytes)}
 }
 function Get-ArpValues([string]$InstallerSha) {
-    return [ordered]@{DisplayName='Airdrop for Windows';DisplayVersion='0.2.4';Publisher='Dy1an-Zou';InstallLocation=$installRoot;DisplayIcon=($exe+',0');UninstallString=('"'+$setupExe+'" --uninstall');NoModify=1;NoRepair=1;InstallOwnerSid=$ownerSid;SetupSha256=$InstallerSha}
+    return [ordered]@{DisplayName='Airdrop for Windows';DisplayVersion='0.2.5';Publisher='Dy1an-Zou';InstallLocation=$installRoot;DisplayIcon=($exe+',0');UninstallString=('"'+$setupExe+'" --uninstall');NoModify=1;NoRepair=1;InstallOwnerSid=$ownerSid;SetupSha256=$InstallerSha}
 }
 function Assert-Arp([string]$InstallerSha) {
     if(-not (Test-Path -LiteralPath $uninstallKey)){Fail 'UNINSTALL_REGISTRATION' 'Apps uninstall registration is missing.'}
@@ -450,7 +450,7 @@ function Install-Payload($New,$Old,$Bindings,[bool]$StartOnLogin,$Installer,$Old
         [IO.Directory]::CreateDirectory($stage)|Out-Null;Protect-Tree $stage
         foreach($entry in $New.Manifest.files.PSObject.Properties){$source=Safe-Child $New.Root $entry.Name;$target=Safe-Child $stage $entry.Name;[IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($target))|Out-Null;Copy-Item -LiteralPath $source -Destination $target}
         [IO.File]::WriteAllBytes((Join-Path $stage 'runtime-manifest.json'),$New.Bytes)
-        $receipt=[ordered]@{schema='xiatiao.install.v1';installedUtc=[DateTime]::UtcNow.ToString('o');ownerSid=$ownerSid;installRoot=$installRoot;task=$taskName;shortcut=$shortcutPath;manifestSha256=$New.Sha;version='0.2.4';updateKind='public-setup';updateToken=$token;setupRoot=$setupRoot;setupSha256=$Installer.Sha}
+        $receipt=[ordered]@{schema='xiatiao.install.v1';installedUtc=[DateTime]::UtcNow.ToString('o');ownerSid=$ownerSid;installRoot=$installRoot;task=$taskName;shortcut=$shortcutPath;manifestSha256=$New.Sha;version='0.2.5';updateKind='public-setup';updateToken=$token;setupRoot=$setupRoot;setupSha256=$Installer.Sha}
         if($Old){$receipt.installedUtc=$Old.Receipt.installedUtc;$receipt.previousManifestSha256=$Old.Sha;$receipt.updatedUtc=[DateTime]::UtcNow.ToString('o')}
         [IO.File]::WriteAllText((Join-Path $stage 'installation.json'),($receipt|ConvertTo-Json -Depth 6),[Text.UTF8Encoding]::new($false))
         Protect-Tree $stage;Read-VerifiedTree $stage $New.Sha $true|Out-Null
@@ -481,7 +481,7 @@ function Install-Payload($New,$Old,$Bindings,[bool]$StartOnLogin,$Installer,$Old
         $cleanupWarning=$null
         if($Old){try{Remove-VerifiedTree $backup $Old $Old.ReceiptSha $token}catch{$cleanupWarning=$_.Exception.Message}}
         if($OldSetup){try{Remove-SetupTree $setupBackup $OldSetup $token}catch{$cleanupWarning=([string]$cleanupWarning+' '+$_.Exception.Message).Trim()}}
-        return [ordered]@{status=$(if($Old){'updated'}else{'installed'});version='0.2.4';installRoot=$installRoot;manifestSha256=$New.Sha;ownerSid=$ownerSid;autostart=$StartOnLogin;backup=$(if(Test-Path -LiteralPath $backup){$backup}else{$null});setupBackup=$(if(Test-Path -LiteralPath $setupBackup){$setupBackup}else{$null});cleanupWarning=$cleanupWarning;driverChanged=$false;applicationStarted=$false;userDataPreserved=$true}
+        return [ordered]@{status=$(if($Old){'updated'}else{'installed'});version='0.2.5';installRoot=$installRoot;manifestSha256=$New.Sha;ownerSid=$ownerSid;autostart=$StartOnLogin;backup=$(if(Test-Path -LiteralPath $backup){$backup}else{$null});setupBackup=$(if(Test-Path -LiteralPath $setupBackup){$setupBackup}else{$null});cleanupWarning=$cleanupWarning;driverChanged=$false;applicationStarted=$false;userDataPreserved=$true}
     }catch{
         $cause=$_.Exception.Message
         if(-not $committed){
@@ -570,15 +570,15 @@ try {
         if($package -ieq $installRoot -or $package.StartsWith($installRoot+'\',[StringComparison]::OrdinalIgnoreCase)){Fail 'PACKAGE_LOCATION' 'Payload cannot be the installed product.'}
         $new=Read-VerifiedTree $package $ExpectedManifestSha256 $false
         $version=[Diagnostics.FileVersionInfo]::GetVersionInfo((Join-Path $package 'XiatiaoAirDrop.dll'))
-        if($version.FileVersion -ne '0.2.4.0' -or $version.ProductVersion -notmatch '^0\.2\.4(\+|$)'){Fail 'PAYLOAD_VERSION' 'This installer requires the 0.2.4 payload.'}
+        if($version.FileVersion -ne '0.2.5.0' -or $version.ProductVersion -notmatch '^0\.2\.5(\+|$)'){Fail 'PAYLOAD_VERSION' 'This installer requires the 0.2.5 payload.'}
         if($Mode -eq 'verify-payload'){
-            $result=[ordered]@{status='verified';version='0.2.4';manifestSha256=$new.Sha;files=$new.Files.Count;mutations=0}
+            $result=[ordered]@{status='verified';version='0.2.5';manifestSha256=$new.Sha;files=$new.Files.Count;mutations=0}
         }else{
             Assert-Owner ($Mode -eq 'install');$device=Assert-Requirements $new.Backend;$old=Read-Installed
-            if($old){if($old.Sha -notin $legacyManifests -and $old.Sha -ine $new.Sha){Fail 'UPGRADE_VERSION' 'Only the verified 0.2.2 / 0.2.3 installation or this exact 0.2.4 release can be updated.'};Assert-FrozenComponents $old $new}
+            if($old){if($old.Sha -notin $legacyManifests -and $old.Sha -ine $new.Sha){Fail 'UPGRADE_VERSION' 'Only a pinned 0.2.2 / 0.2.3 / 0.2.4 / local 0.2.5 installation or this exact 0.2.5 release can be updated.'};Assert-FrozenComponents $old $new}
             $bindings=Get-Bindings ([bool]$old);$setupState=Get-SetupState $old;$installer=Read-InstallerSource;Assert-Idle
             $startOnLogin=if($AutoStart -eq 'preserve'){if($old){$bindings.Run}else{$true}}else{$AutoStart -eq 'enabled'}
-            if($Mode -eq 'preflight'){$result=[ordered]@{status='ready';version='0.2.4';manifestSha256=$new.Sha;installRoot=$installRoot;ownerSid=$ownerSid;upgrade=[bool]$old;autostart=$startOnLogin;device=$device;mutations=0}}
+            if($Mode -eq 'preflight'){$result=[ordered]@{status='ready';version='0.2.5';manifestSha256=$new.Sha;installRoot=$installRoot;ownerSid=$ownerSid;upgrade=[bool]$old;autostart=$startOnLogin;device=$device;mutations=0}}
             else{$result=Install-Payload $new $old $bindings $startOnLogin $installer $setupState}
         }
     }
